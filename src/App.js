@@ -1,4 +1,4 @@
-import {BrowserRouter, Navigate, Route, Routes} from "react-router-dom";
+import {BrowserRouter, Route, Routes} from "react-router-dom";
 import Connect from "./pages/Connect";
 import Room from "./pages/room/Room";
 import Signing from "./components/Signing";

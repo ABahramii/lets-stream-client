@@ -43,11 +43,30 @@ header {
     margin: 10px;
 }
 
+.member_wrapper button{
+    color: #fff;
+    background-color: #1a1a1a;
+    border: 0px;
+}
+
 .green_dot {
     display: block;
     width: 10px;
     height: 10px;
     background-color: #2aca3e;
+    border-radius: 50%;
+    /*margin-right: 5px;*/
+}
+
+#chat_container {
+    border: 2px solid #4a4a4a;
+}
+
+.red_dot {
+    display: block;
+    width: 10px;
+    height: 10px;
+    background-color: #e70404;
     border-radius: 50%;
     /*margin-right: 5px;*/
 }
