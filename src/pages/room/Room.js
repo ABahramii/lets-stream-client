@@ -10,7 +10,7 @@ export default function Room() {
     const { state: user } = useAuthContext();
     const [chatsCount, setChatsCount] = useState(1);
     const [sendMessage, setSendMessage] = useState("");
-    const [publicChats, setPublicChats] = useState([{senderName: "ab", date: "NOV 17", status: "MESSAGE", message: "hello world"}]);
+    const [publicChats, setPublicChats] = useState([]);
     const [privateChats, setPrivateChats] = useState(new Map());
     const [tab, setTab] = useState("PUBLIC");
 
@@ -23,6 +23,7 @@ export default function Room() {
     const registerUser = () => {
         let sock = new SockJS("http://localhost:8080/ws");
         stompClient = over(sock);
+        stompClient.debug = null;
         stompClient.connect({}, onConnected, onError)
     }
 
@@ -33,6 +34,7 @@ export default function Room() {
     }
 
     const userJoin = () => {
+        console.log("user joinded");
         let chatMessage = {
             senderName: user.username,
             message: sendMessage,
@@ -46,12 +48,18 @@ export default function Room() {
         const payloadData = JSON.parse(payload.body);
         switch (payloadData.status) {
             case "JOIN":
-                privateChats.set(payloadData.senderName, []);
-                setPrivateChats(new Map(privateChats));
+                // privateChats.set(payloadData.senderName, []);
+                // setPrivateChats(prevState => new Map(prevState));
+                setPrivateChats(prevState => {
+                    let map = new Map(prevState);
+                    map.set(payloadData.senderName, []);
+                    return map;
+                });
                 break;
             case "MESSAGE":
-                publicChats.push(payloadData);
-                setPublicChats(...publicChats);
+                console.log("message received");
+                console.log(publicChats);
+                setPublicChats(prev => [...prev, payloadData] );
                 console.log("chats\n", publicChats);
                 break;
             default:
@@ -62,16 +70,23 @@ export default function Room() {
     const onPrivateMessageReceived = (payload) => {
         const payloadData = JSON.parse(payload.body);
         if (privateChats.get(payloadData.senderName)) {
-            privateChats.get(payloadData.senderName).push(payloadData);
-            setPrivateChats(new Map(privateChats));
+            setPrivateChats(prevState => {
+                let map = new Map(prevState);
+                map.get(payloadData.senderName).push(payloadData);
+                return map;
+            });
         } else {
             let num = chatsCount + 1;
             setChatsCount(num);
 
             let list = [];
             list.push(payloadData);
-            privateChats.set(payloadData.senderName, list);
-            setPrivateChats(new Map(privateChats));
+
+            setPrivateChats(prevState => {
+                let map = new Map(prevState);
+                map.set(payloadData.senderName, list);
+                return map;
+            });
         }
     }
 
@@ -92,11 +107,8 @@ export default function Room() {
                 date: Date.now().toString(),
                 status: "MESSAGE"
             }
-            console.log("hello send public msg")
             stompClient.send("/app/message", {}, JSON.stringify(chatMessage));
             setSendMessage("");
-        } else {
-            console.log("stompClient is null");
         }
     }
 
@@ -109,9 +121,17 @@ export default function Room() {
                 date: Date.now().toString(),
                 status: "MESSAGE"
             }
+            console.log("private message", chatMessage)
             if (user.username !== tab) {
-                privateChats.get(tab).push(sendMessage);
-                setPrivateChats(new Map(privateChats));
+                // privateChats.get(tab).push(sendMessage);
+                // setPrivateChats(new Map(privateChats));
+                console.log("send message to " + tab);
+                console.log("before update private chates: ", privateChats.get(tab));
+                setPrivateChats(prevState => {
+                    let map = new Map(prevState);
+                    map.get(tab).push(sendMessage);
+                    return map;
+                });
             }
             stompClient.send("/app/private-message", {}, JSON.stringify(chatMessage));
             setSendMessage("");
@@ -180,6 +200,14 @@ export default function Room() {
                                     </div>
                                 ))
                             }
+                            <div>
+                                <input
+                                    type="text"
+                                    value={sendMessage}
+                                    onChange={(event) => setSendMessage(event.target.value)}
+                                />
+                                <button onClick={handleSendPrivateMessage}>send</button>
+                            </div>
                         </section>
                     }
 
