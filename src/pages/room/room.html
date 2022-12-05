@@ -6,11 +6,36 @@
           content="width=device-width, user-scalable=no, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0">
     <meta http-equiv="X-UA-Compatible" content="ie=edge">
     <title>Room</title>
+    <link rel="stylesheet" type="text/css" href="../base.css">
     <link rel="stylesheet" type="text/css" href="./room.css">
 </head>
 <body>
-<header>
-    <h1>Let's Stream </h1>
+
+<header id="nav">
+    <div class="nav-list">
+        <button id="members_button">
+            <svg width="24" height="24" xmlns="http://www.w3.org/2000/svg" fill-rule="evenodd" />
+        </button>
+        <a href="/">
+            <h3 id="logo">
+                <img src="../../images/dark-logo.png" alt="Logo">
+                <span>Let's Stream</span>
+            </h3>
+        </a>
+    </div>
+    <div id="nav_links">
+        <button id="chat_button">
+            <svg width="24" height="24" xmlns="http://www.w3.org/2000/svg" fill-rule="evenodd" />
+        </button>
+        <a href="/" class="nav-link">
+            Lobby
+            <svg width="24" height="24" xmlns="http://www.w3.org/2000/svg" fill="ede0e0" />
+        </a>
+        <a href="/" class="nav-link">
+            Create Room
+            <svg width="24" height="24" xmlns="http://www.w3.org/2000/svg" fill="ede0e0" />
+        </a>
+    </div>
 </header>
 
 <main id="room_container">
@@ -33,7 +58,7 @@
         </div>
     </section>
 
-    <section id="chat_container">
+    <section id="messages">
         <div class="message-wrapper">
             <p>Dennis</p>
             <p class="message">
@@ -50,7 +75,70 @@
                 Accusantium blanditiis et maiores unde voluptate!
             </p>
         </div>
+        <div class="message-wrapper">
+            <p>Amir</p>
+            <p class="message">
+                Lorem ipsum dolor sit amet, consectetur adipisicing elit. Ab, accusamus animi dolores labore laudantium
+                molestiae nihil non, possimus quas quidem quo quos sed temporibus.
+                Accusantium blanditiis et maiores unde voluptate!
+            </p>
+        </div>
+        <div class="message-wrapper">
+            <p>Amir</p>
+            <p class="message">
+                Lorem ipsum dolor sit amet, consectetur adipisicing elit. Ab, accusamus animi dolores labore laudantium
+                molestiae nihil non, possimus quas quidem quo quos sed temporibus.
+                Accusantium blanditiis et maiores unde voluptate!
+            </p>
+        </div>
+        <div class="message-wrapper">
+            <p>Amir</p>
+            <p class="message">
+                Lorem ipsum dolor sit amet, consectetur adipisicing elit. Ab, accusamus animi dolores labore laudantium
+                molestiae nihil non, possimus quas quidem quo quos sed temporibus.
+                Accusantium blanditiis et maiores unde voluptate!
+            </p>
+        </div>
+        <div class="message-wrapper">
+            <p>Amir</p>
+            <p class="message">
+                Lorem ipsum dolor sit amet, consectetur adipisicing elit. Ab, accusamus animi dolores labore laudantium
+                molestiae nihil non, possimus quas quidem quo quos sed temporibus.
+                Accusantium blanditiis et maiores unde voluptate!
+            </p>
+        </div>
+        <div class="message-wrapper">
+            <p>Amir</p>
+            <p class="message">
+                Lorem ipsum dolor sit amet, consectetur adipisicing elit. Ab, accusamus animi dolores labore laudantium
+                molestiae nihil non, possimus quas quidem quo quos sed temporibus.
+                Accusantium blanditiis et maiores unde voluptate!
+            </p>
+        </div>
+        <div class="message-wrapper">
+            <p>Amir</p>
+            <p class="message">
+                Lorem ipsum dolor sit amet, consectetur adipisicing elit. Ab, accusamus animi dolores labore laudantium
+                molestiae nihil non, possimus quas quidem quo quos sed temporibus.
+                Accusantium blanditiis et maiores unde voluptate!
+            </p>
+        </div>
+        <div class="message-wrapper">
+            <p>Amir</p>
+            <p class="message">
+                Lorem ipsum dolor sit amet, consectetur adipisicing elit. Ab, accusamus animi dolores labore laudantium
+                molestiae nihil non, possimus quas quidem quo quos sed temporibus.
+                Accusantium blanditiis et maiores unde voluptate!
+            </p>
+        </div>
     </section>
+
+    <div id="form_container">
+        <form id="message_form">
+            <input type="text" name="message" required>
+        </form>
+    </div>
+
 </main>
 
 </body>

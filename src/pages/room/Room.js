@@ -38,7 +38,7 @@ export default function Room() {
         let chatMessage = {
             senderName: user.username,
             message: sendMessage,
-            date: Date.now().toString(),
+            date: new Date().toLocaleTimeString([], {hour: "2-digit", minute: "2-digit"}),
             status: "JOIN"
         }
         stompClient.send("/app/message", {}, JSON.stringify(chatMessage));
@@ -170,7 +170,8 @@ export default function Room() {
                             {
                                 publicChats.map((msg, index) => (
                                     <div key={index} className="message-wrapper">
-                                        <p>{msg.senderName} - {msg.date}</p>
+                                        <small>{msg.date}</small>
+                                        <p>{msg.senderName}</p>
                                         <p className="message">
                                             {msg.message}
                                         </p>

@@ -1,26 +1,5 @@
 @import url('https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;600;700;800&display=swap');
 
-/*Todo: goto app.css */
-*{
-    font-family: 'Poppins', sans-serif;
-}
-
-body {
-    color: #fff;
-    background-color: #1a1a1a;
-    font-size: 14px;
-    padding: 0;
-    margin: 0;
-    box-sizing: border-box;
-    border-bottom: 1px solid black;
-}
-
-header {
-    background-color: #1a1a1a;
-    height: 50px;
-}
-/*Todo: goto app.css */
-
 #room_container {
     display: grid;
     grid-template-columns: 200px 800px;
@@ -28,6 +7,11 @@ header {
 
 #participants_container {
     border-right: #797a79;
+}
+
+#messages {
+    height: 100vh;
+    overflow: auto;
 }
 
 .message-wrapper {
@@ -43,11 +27,11 @@ header {
     margin: 10px;
 }
 
-.member_wrapper button{
+/*.member_wrapper button{
     color: #fff;
     background-color: #1a1a1a;
     border: 0px;
-}
+}*/
 
 .green_dot {
     display: block;
@@ -58,15 +42,101 @@ header {
     /*margin-right: 5px;*/
 }
 
-#chat_container {
-    border: 2px solid #4a4a4a;
+
+#form_container {
+    position: fixed;
+    bottom: 0;
+    left: 200px;
 }
 
-.red_dot {
-    display: block;
-    width: 10px;
-    height: 10px;
-    background-color: #e70404;
-    border-radius: 50%;
-    /*margin-right: 5px;*/
+message-body {
+    background-color: #363739;
+}
+
+.message-body strong {
+    font-weight: 600;
+    color: #ede0e0;
+}
+
+.message-timestamp {
+    font-size: 12px;
+    font-weight: 100;
+    color: #d1e0e0;
+}
+
+.message-author {
+    margin-right: 10px;
+}
+
+.message-text {
+    margin: 0;
+}
+
+#message_form {
+    width: calc(100% - 30rem);
+    padding: 1rem;
+    position: fixed;
+    bottom: 0;
+}
+
+
+@media (max-width: 1000px) {
+    #message_form {
+        width: calc(100% - 23rem);
+    }
+}
+
+#message_form input {
+    width: 100%;
+    color: #fff;
+    border: none;
+    border-radius: 5px;
+    padding: 18px;
+    font-size: 14px;
+    box-sizing: border-box;
+    background-color: #3f434a;
+}
+
+#message_form input:focus {
+    outline: none;
+}
+
+#message_form input::placeholder {
+    color: #707575;
+}
+
+@media (max-width: 1000px) {
+    #messages_container {
+        padding-left: 20rem;
+    }
+}
+
+@media (max-width: 768px) {
+    #messages_container {
+        padding-left: 18rem;
+        margin-right: 2rem;
+    }
+
+    #message_form {
+        width: calc(100% - 20rem);
+    }
+}
+
+@media (max-width: 640px) {
+    #members_container {
+        display: none;
+    }
+
+    .member-list {
+        padding-bottom: 10rem;
+    }
+
+    #messages_container {
+        padding-left: 0;
+        margin-right: 2rem;
+    }
+
+    #message_form {
+        width: calc(100% - 2rem);
+    }
 }
