@@ -11,6 +11,7 @@ function App() {
                 <Navbar />
                 <Routes>
                     <Route path="/" element={<Join />} />
+                    <Route path="/join" element={<Join />} />
                     <Route path="/room" element={<Room />} />
                     <Route path="/s" element={<Signing />} />
                 </Routes>
