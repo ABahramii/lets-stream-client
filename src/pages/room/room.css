@@ -218,8 +218,8 @@
     overflow: hidden;
     height: 300px;
     width: 300px;
-
-    background-image: url("/images/logo.png");
+    /* Todo */
+    /*background-image: url("/images/logo.png");*/
     background-repeat: no-repeat;
     background-position: center;
     background-size: 75px;
