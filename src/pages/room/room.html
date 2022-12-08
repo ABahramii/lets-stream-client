@@ -17,13 +17,13 @@
         <button id="members__button">
             <svg width="24" height="24" xmlns="http://www.w3.org/2000/svg" fill-rule="evenodd" clip-rule="evenodd">
                 <path d="M24 18v1h-24v-1h24zm0-6v1h-24v-1h24zm0-6v1h-24v-1h24z" fill="#ede0e0"/>
-                    <path d="M24 19h-24v-1h24v1zm0-6h-24v-1h24v1zm0-6h-24v-1h24v1z"/>
+                <path d="M24 19h-24v-1h24v1zm0-6h-24v-1h24v1zm0-6h-24v-1h24v1z"/>
             </svg>
         </button>
         <a href="lobby.html"/>
         <h3 id="logo">
             <img src="../../images/dark-logo.png" alt="Site Logo">
-            <span>Mumble</span>
+            <span>Let's Stream</span>
         </h3>
         </a>
     </div>
@@ -55,14 +55,30 @@
 
             <div id="members__header">
                 <p>Participants</p>
-                <strong id="members__count">0</strong>
+                <!-- Todo: test data -->
+                <strong id="members__count">27</strong>
             </div>
 
             <div id="member__list">
+                <!--                Todo: test data -->
+                <div class="member__wrapper">
+                    <span class="green__icon"></span>
+                    <p class="member_name">amohammad</p>
+                </div>
+                <div class="member__wrapper">
+                    <span class="green__icon"></span>
+                    <p class="member_name">afshin</p>
+                </div>
+                <div class="member__wrapper">
+                    <span class="green__icon"></span>
+                    <p class="member_name">james gosling</p>
+                </div>
+
             </div>
 
         </section>
 
+        <!--     Todo: this is just a template   -->
         <section id="stream__container">
 
             <div id="stream__box"></div>
@@ -97,7 +113,37 @@
 
         <section id="messages__container">
 
-            <div id="messages"></div>
+            <!--   Todo: test data  -->
+            <div id="messages">
+
+                <div class="message__wrapper">
+                    <img class="avatar__md" src="../../images/dark-logo.png">
+                    <div class="message__body">
+                        <strong class="message__author">Amir</strong>
+                        <small class="message__timestamp">9:33 AM</small>
+                        <p class="message__text">hello world, front-end is not bad ! </p>
+                    </div>
+                </div>
+
+                <div class="message__wrapper">
+                    <img class="avatar__md" src="../../images/dark-logo.png">
+                    <div class="message__body">
+                        <strong class="message__author">james gosling</strong>
+                        <small class="message__timestamp">11:44 AM</small>
+                        <p class="message__text">but there is one king, that called java! </p>
+                    </div>
+                </div>
+
+                <div class="message__wrapper">
+                    <img class="avatar__md" src="../../images/dark-logo.png">
+                    <div class="message__body">
+                        <strong class="message__author">bot</strong>
+                        <small class="message__timestamp">02:00 PM</small>
+                        <p class="message__text">Lorem ipsum dolor sit amet, consectetur adipisicing elit. Incidunt ipsum libero nobis quod unde. Aspernatur at aut cum cupiditate dolor dolores, fugit molestiae optio repellendus, saepe suscipit tenetur voluptas voluptate!</p>
+                    </div>
+                </div>
+
+            </div>
 
             <form id="message__form">
                 <input type="text" name="message" placeholder="Send a message...."/>

@@ -123,7 +123,12 @@
 .message__author {
     margin-right: 10px;
     color: #2aca3e!important;
+}
 
+.message__timestamp {
+    font-size: 12px;
+    font-weight: 100;
+    color: #d1e0e0;
 }
 
 .message__author__bot {
