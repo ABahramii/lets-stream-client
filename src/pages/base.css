@@ -1,52 +1,54 @@
-*{
+@import url('https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;600;700;800&display=swap');
+
+* {
     font-family: 'Poppins', sans-serif;
 }
 
-/*header {
-    background-color: #1a1a1a;
-    height: 50px;
-}*/
-
+/* width */
 ::-webkit-scrollbar {
     width: 7px;
 }
 
+/* Track */
 ::-webkit-scrollbar-track {
     box-shadow: inset 0 0 5px grey;
     border-radius: 10px;
 }
 
+/* Handle */
 ::-webkit-scrollbar-thumb {
     background: #797a79;
     border-radius: 10px;
 }
 
+/* Handle on hover */
 ::-webkit-scrollbar-thumb:hover {
     background: #845695;
 }
 
 body {
-    color: #fff;
     background-color: #1a1a1a;
+    color: #fff;
+
     font-size: 14px;
     padding: 0;
     margin: 0;
     box-sizing: border-box;
-    /*border-bottom: 1px solid black;*/
 }
 
-p, a {
+p,
+a {
     font-weight: 300;
 }
 
-.avatar-md {
+.avatar__md {
     height: 40px;
     width: 40px;
     object-fit: cover;
     border-radius: 50%;
 }
 
-.avatar-sm {
+.avatar__sm {
     height: 30px;
     width: 30px;
     object-fit: cover;
@@ -93,13 +95,13 @@ p, a {
     text-decoration: none;
 }
 
-#nav_links {
+#nav__links {
     display: flex;
     align-items: center;
     column-gap: 2em;
 }
 
-.nav-link {
+.nav__link {
     color: #fff;
     text-decoration: none;
     transition: 1s;
@@ -109,18 +111,18 @@ p, a {
 }
 
 @media (max-width: 520px) {
-    #nav_links {
+    #nav__links {
         column-gap: 3em;
     }
 }
 
-.nav-link:hover {
+.nav__link:hover {
     color: rgb(230, 228, 228);
     text-decoration: none;
-    background-color: #845695;
+    border-color: #845695;
 }
 
-#create_room_btn {
+#create__room__btn {
     display: block;
     background-color: #845695;
     padding: 8px 24px;
@@ -129,66 +131,57 @@ p, a {
     border-radius: 5px;
 }
 
-#create_room_btn:hover {
+#create__room__btn:hover {
     background-color: #845695;
 }
 
-.nav-list {
+.nav--list {
     display: flex;
     gap: 1rem;
     align-items: center;
 }
 
-#members_button, #chat_button {
+#members__button,
+#chat__button {
     display: none;
     cursor: pointer;
     background: transparent;
     border: none;
 }
 
-#members_button:hover svg > path,
-#chat_button:hover svg,
-.nav-link:hover svg {
+#members__button:hover svg > path,
+#chat__button:hover svg,
+.nav__link:hover svg {
     fill: #845695;
 }
 
-.nav-link svg {
+.nav__link svg {
     width: 0;
     height: 0;
 }
 
 @media (max-width: 640px) {
-    #members_button {
+    #members__button {
         display: block;
     }
 
-    .nav-link svg {
+    .nav__link svg {
         width: 1.5rem;
         height: 1.5rem;
     }
-
-    .nav-link,
-    #create_room_btn {
+    .nav__link,
+    #create__room__btn {
         font-size: 0;
         border: none;
     }
 
-    #create_room_btn {
+    #create__room__btn {
         padding: 0;
         background-color: transparent;
         border-radius: 50%;
     }
 
-    #create_room_btn:hover {
+    #create__room__btn:hover {
         background-color: transparent;
     }
 }
-
-
-
-
-
-
-
-
-
