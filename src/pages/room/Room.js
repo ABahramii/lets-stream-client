@@ -27,17 +27,16 @@ export default function Room() {
         let sock = new SockJS("http://localhost:8080/ws");
         stompClient = over(sock);
         stompClient.debug = null;
-        stompClient.connect({}, onConnected, onError)
+        stompClient.connect({}, onConnected, (err) => console.log(err))
     }
 
     const onConnected = () => {
         stompClient.subscribe("/chatroom/public", onPublicMessageReceived);
-        stompClient.subscribe("/user/" + user.username + "/private", onPrivateMessageReceived);
+        // stompClient.subscribe("/user/" + user.username + "/private", onPrivateMessageReceived);
         userJoin();
     }
 
     const userJoin = () => {
-        console.log("user joinded");
         let chatMessage = {
             senderName: user.username,
             message: sendMessage,
@@ -70,7 +69,7 @@ export default function Room() {
         }
     }
 
-    const onPrivateMessageReceived = (payload) => {
+    /*const onPrivateMessageReceived = (payload) => {
         const payloadData = JSON.parse(payload.body);
         if (privateChats.get(payloadData.senderName)) {
             setPrivateChats(prevState => {
@@ -91,11 +90,7 @@ export default function Room() {
                 return map;
             });
         }
-    }
-
-    const onError = (err) => {
-        console.log(err)
-    }
+    }*/
 
     /*const handleChatClick = (chat) => {
         console.log(chat, Date.now());
