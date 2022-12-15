@@ -49,7 +49,8 @@
     background-color: #3f434a;
 }
 
-.form__field__wrapper button[type='submit'] {
+.form__field__wrapper button
+{
     margin-top: 32px;
     cursor: pointer;
     background-color: #845695;
@@ -65,7 +66,7 @@
     gap: 10px;
 }
 
-.form__field__wrapper button[type='submit'] svg {
+.form__field__wrapper button svg {
     fill: #ede0e0;
     width: 20px;
 }
