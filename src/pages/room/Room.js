@@ -1,37 +1,69 @@
 import "./room.css";
-import {useEffect, useState} from "react";
+import {useState} from "react";
 import {useAuthContext} from "../../hooks/useAuthContext";
-import { over } from "stompjs";
-import SockJS from "sockjs-client";
+// import { over } from "stompjs";
+// import SockJS from "sockjs-client";
+
+// import { Client, Message } from '@stomp/stompjs';
+
 
 import testImg from "../../images/dark-logo.png";
+import { useStomp } from "usestomp-hook/lib";
 
-let stompClient = null;
+// let stompClient = null;
 
 export default function Room() {
     const { state: user } = useAuthContext();
-    const [chatsCount, setChatsCount] = useState(1);
     const [sendMessage, setSendMessage] = useState("");
     const [publicChats, setPublicChats] = useState([]);
-    const [privateChats, setPrivateChats] = useState(new Map());
-    const [tab, setTab] = useState("PUBLIC");
+    const [members, setMembers] = useState([]);
 
-    useEffect(() => {
+    // const [stompClient, setStompClient] = useState();
+
+    /*const { disconnect, subscribe, unsubscribe, subscriptions, send, isConnected } =
+        useStomp({
+            brokerURL: "ws://localhost:8080/ws",
+        }, () => registerUser);*/
+    const {subscribe, send} =
+        useStomp({
+            brokerURL: "ws://localhost:8080/ws",
+        }, () => registerUser());
+
+
+    /*useEffect(() => {
         if (user) {
             console.log("hello register");
             registerUser();
         }
-    }, []);
+    }, []);*/
 
     const registerUser = () => {
-        let sock = new SockJS("http://localhost:8080/ws");
-        stompClient = over(sock);
-        stompClient.debug = null;
-        stompClient.connect({}, onConnected, (err) => console.log(err))
+        // stompClient.connect({}, onConnected, (err) => console.log(err))
+        console.log("in registerUser body")
+        onConnected();
     }
 
     const onConnected = () => {
-        stompClient.subscribe("/chatroom/public", onPublicMessageReceived);
+        subscribe("/chatroom/public", (body) => {
+            // console.log(body);
+            switch (body.status) {
+                case "JOIN":
+                    console.log("JOIN: i called", body.senderName);
+                    console.log(members);
+                    setMembers(prevState => [...prevState, body.senderName]);
+                    console.log(members);
+
+                    break;
+                case "MESSAGE":
+                    console.log("message received");
+                    console.log(publicChats);
+                    setPublicChats(prev => [...prev, body] );
+                    console.log("chats\n", publicChats);
+                    break;
+                default:
+                    break;
+            }
+        });
         // stompClient.subscribe("/user/" + user.username + "/private", onPrivateMessageReceived);
         userJoin();
     }
@@ -43,20 +75,20 @@ export default function Room() {
             date: new Date().toLocaleTimeString([], {hour: "2-digit", minute: "2-digit"}),
             status: "JOIN"
         }
-        stompClient.send("/app/message", {}, JSON.stringify(chatMessage));
+        console.log("in userJoin body", chatMessage)
+        send("/app/message", chatMessage, {});
     }
 
-    const onPublicMessageReceived = (payload) => {
-        const payloadData = JSON.parse(payload.body);
+    const onPublicMessageReceived = (payloadData) => {
+        // const payloadData = JSON.parse(payload.body);
+        console.log("hello public message", payloadData)
         switch (payloadData.status) {
             case "JOIN":
-                // privateChats.set(payloadData.senderName, []);
-                // setPrivateChats(prevState => new Map(prevState));
-                setPrivateChats(prevState => {
-                    let map = new Map(prevState);
-                    map.set(payloadData.senderName, []);
-                    return map;
-                });
+                console.log("JOIN: i called", payloadData.senderName);
+                console.log(members);
+                setMembers(prevState => [...prevState, payloadData.senderName]);
+                console.log(members);
+
                 break;
             case "MESSAGE":
                 console.log("message received");
@@ -69,35 +101,14 @@ export default function Room() {
         }
     }
 
-    /*const onPrivateMessageReceived = (payload) => {
-        const payloadData = JSON.parse(payload.body);
-        if (privateChats.get(payloadData.senderName)) {
-            setPrivateChats(prevState => {
-                let map = new Map(prevState);
-                map.get(payloadData.senderName).push(payloadData);
-                return map;
-            });
-        } else {
-            let num = chatsCount + 1;
-            setChatsCount(num);
-
-            let list = [];
-            list.push(payloadData);
-
-            setPrivateChats(prevState => {
-                let map = new Map(prevState);
-                map.set(payloadData.senderName, list);
-                return map;
-            });
+    const handleKeyDown = (event) => {
+        event.preventDefault();
+        if (event.key === "Enter") {
+            console.log(sendMessage);
         }
-    }*/
+    }
 
-    /*const handleChatClick = (chat) => {
-        console.log(chat, Date.now());
-        setTab(chat);
-    }*/
-
-    /*const handleSendPublicMessage = () => {
+    /*const sendPublicMessage = () => {
         if (stompClient) {
             let chatMessage = {
                 senderName: user.username,
@@ -110,39 +121,6 @@ export default function Room() {
         }
     }*/
 
-    /*const handleSendPrivateMessage = () => {
-        if (stompClient) {
-            let chatMessage = {
-                senderName: user.username,
-                receiverName: tab,
-                message: sendMessage,
-                date: Date.now().toString(),
-                status: "MESSAGE"
-            }
-            console.log("private message", chatMessage)
-            if (user.username !== tab) {
-                // privateChats.get(tab).push(sendMessage);
-                // setPrivateChats(new Map(privateChats));
-                console.log("send message to " + tab);
-                console.log("before update private chates: ", privateChats.get(tab));
-                setPrivateChats(prevState => {
-                    let map = new Map(prevState);
-                    map.get(tab).push(sendMessage);
-                    return map;
-                });
-            }
-            stompClient.send("/app/private-message", {}, JSON.stringify(chatMessage));
-            setSendMessage("");
-        }
-    }*/
-
-    const handleKeyDown = (event) => {
-        event.preventDefault();
-        if (event.key === 'Enter') {
-            console.log(sendMessage);
-        }
-    }
-
     return (
         <>
             { user &&
@@ -153,22 +131,33 @@ export default function Room() {
                         <section id="members__container">
                             <div id="members__header">
                                 <p>Participants</p>
-                                <strong id="members__count">{chatsCount}</strong>
+                                <strong id="members__count">{members.length}</strong>
                             </div>
 
                             <div id="member__list">
-                                <div className="member__wrapper">
+                                {/*<div className="member__wrapper">
                                     <span className="green__icon"></span>
                                     <p className="member_name">{user.username}</p>
-                                </div>
-                                <div className="member__wrapper">
+                                </div>*/}
+
+                                {
+                                    members.map((member, index) => (
+                                        <div key={index} className="member__wrapper">
+                                            <span className="green__icon"></span>
+                                            <p className="member_name">{member}</p>
+                                        </div>
+                                    ))
+                                }
+
+
+                                {/*<div className="member__wrapper">
                                     <span className="green__icon"></span>
                                     <p className="member_name">afshin</p>
                                 </div>
                                 <div className="member__wrapper">
                                     <span className="green__icon"></span>
                                     <p className="member_name">james gosling</p>
-                                </div>
+                                </div>*/}
                             </div>
                         </section>
 
@@ -213,7 +202,7 @@ export default function Room() {
                                 {
                                     publicChats.map((msg, index) => (
                                         <div key={index} className="message__wrapper">
-                                            <img className="avatar__md" src="../../images/dark-logo.png"/>
+                                            <ima className="avatar__md" src="../../images/dark-logo.png"/>
                                             <div className="message__body">
                                                 <strong className="message__author">{msg.senderName}</strong>
                                                 <small className="message__timestamp">{msg.date}</small>
@@ -235,7 +224,6 @@ export default function Room() {
                             <form id="message__form">
                                 <input
                                     type="text"
-                                    value={sendMessage}
                                     onChange={(event) => setSendMessage(event.target.value)}
                                     onKeyDown={handleKeyDown}
                                     placeholder="Send a message...."
