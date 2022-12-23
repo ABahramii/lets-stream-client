@@ -1,16 +1,8 @@
 import "./room.css";
 import {useState} from "react";
 import {useAuthContext} from "../../hooks/useAuthContext";
-// import { over } from "stompjs";
-// import SockJS from "sockjs-client";
-
-// import { Client, Message } from '@stomp/stompjs';
-
-
 import testImg from "../../images/dark-logo.png";
 import { useStomp } from "usestomp-hook/lib";
-
-// let stompClient = null;
 
 export default function Room() {
     const { state: user } = useAuthContext();
