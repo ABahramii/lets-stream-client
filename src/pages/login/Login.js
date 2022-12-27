@@ -3,6 +3,7 @@ import {useState} from "react";
 import {useNavigate} from "react-router-dom";
 import useFetch from "../../hooks/useFetch";
 import {BASE_URL} from "../../config/Url";
+import saveAuthData from "../../data/authData";
 
 export default function Login() {
     const [username, setUsername] = useState("");
@@ -23,8 +24,9 @@ export default function Login() {
                 }
             }
         ).then(res => {
-            console.log(res);
-            navigate("/join");
+            const data = res.data;
+            saveAuthData(data.accessToken, data.accessTokenExpireAt);
+            navigate("/");
         }).catch(exp => {
             console.log(JSON.stringify(exp))
             alert("lucky you, fuck you too")
