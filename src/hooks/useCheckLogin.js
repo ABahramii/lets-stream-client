@@ -1,28 +1,39 @@
-import {useState} from "react";
-import useAuthRequest from "./useAuthRequest";
-// import ApiRoutes from "../config/ApiRoutes";
+import {useEffect, useState} from "react";
+import useFetch from "./useFetch";
+import {BASE_URL} from "../config/Url";
 
-const useCheckLogin = () => {
-
-    const [isLogin, setLogin] = useState(null);
-    const [getUserInfoReg] = useAuthRequest()
+export const useCheckLogin = () => {
+    const [isLogin, setIsLogin] = useState(false);
+    const [tokenValidReq] = useFetch();
 
     const checkLogin = async () => {
-        await getUserInfoReg({
-            // Todo
-            // url: ApiRoutes.USER_INFO_URL,
-            method: "GET"
-        }).then(res => {
-            setLogin(true)
-            return true;
-        }).catch(e => {
-            setLogin(false)
-            return false;
-        });
+        const token = localStorage.getItem("token");
+        console.log(token);
+
+        if (token) {
+            const url = `${BASE_URL}/auth/token/isValid/${token}`;
+
+            tokenValidReq({
+                url: url,
+                method: "GET",
+            }).then(res => {
+                console.log(res);
+                const body = res.data;
+                setIsLogin(body.isTokenValid);
+            }).catch(exp => {
+                setIsLogin(false);
+            })
+        } else {
+            console.log("i have not this")
+            setIsLogin(false);
+        }
     }
 
-    return [checkLogin, isLogin];
 
+    useEffect(() => {
+        console.log("try to checkLogin");
+        checkLogin();
+    }, []);
+
+    return {isLogin};
 }
-
-export default useCheckLogin;
