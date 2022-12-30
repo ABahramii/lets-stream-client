@@ -2,14 +2,17 @@ import "./join.css"
 import {useAuthContext} from "../../hooks/useAuthContext";
 import {useNavigate} from "react-router-dom";
 import {useState} from "react";
+import {useCheckLogin} from "../../hooks/useCheckLogin";
 
 export default function Join() {
-
     const [username, setUsername] = useState("");
     const [roomName, setRoomName] = useState("");
 
     const {dispatch} = useAuthContext();
     const navigate = useNavigate();
+    // Todo: when page loaded first render hide div and then hide it
+    const {isLogin} = useCheckLogin();
+
 
     const handleSubmit = (event) => {
         event.preventDefault();
@@ -23,22 +26,24 @@ export default function Join() {
 
                 <div id="form__container">
                     <div id="form__container__header">
-                        <p>👋 Create or Join Room</p>
+                        <p>👋 Join Room</p>
                     </div>
 
                     <form id="lobby__form" onSubmit={handleSubmit}>
-                        <div className="form__field__wrapper">
-                            <label>Your Name</label>
-                            <label>
-                                <input type="text"
-                                       name="name"
-                                       onChange={(e) => setUsername(e.target.value)}
-                                       value={username}
-                                       required
-                                       placeholder="Enter your display name..."
-                                />
-                            </label>
-                        </div>
+                        {!isLogin &&
+                            <div className="form__field__wrapper">
+                                <label>Your Name</label>
+                                <label>
+                                    <input type="text"
+                                           name="name"
+                                           onChange={(e) => setUsername(e.target.value)}
+                                           value={username}
+                                           required
+                                           placeholder="Enter your display name..."
+                                    />
+                                </label>
+                            </div>
+                        }
 
                         <div className="form__field__wrapper">
                             <label>Room Name</label>
