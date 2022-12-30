@@ -17,21 +17,21 @@ export const useCheckLogin = () => {
                 url: url,
                 method: "GET",
             }).then(res => {
-                console.log(res);
+                // console.log(res);
                 const body = res.data;
                 setIsLogin(body.isTokenValid);
             }).catch(exp => {
                 setIsLogin(false);
             })
         } else {
-            console.log("i have not this")
+            // console.log("i have not this")
             setIsLogin(false);
         }
     }
 
 
     useEffect(() => {
-        console.log("try to checkLogin");
+        // console.log("try to checkLogin");
         checkLogin();
     }, []);
 
