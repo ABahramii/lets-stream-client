@@ -5,7 +5,7 @@ import {useState} from "react";
 import {useCheckLogin} from "../../hooks/useCheckLogin";
 
 export default function Join() {
-    const [username, setUsername] = useState("");
+    const [guestName, setGuestName] = useState("");
     const [roomName, setRoomName] = useState("");
 
     const {dispatch} = useAuthContext();
@@ -14,9 +14,13 @@ export default function Join() {
     const {isLogin} = useCheckLogin();
 
 
-    const handleSubmit = (event) => {
+    const handleJoin = (event) => {
         event.preventDefault();
-        dispatch({type: "CONNECT", payload: username});
+        dispatch({type: "CONNECT", payload: guestName});
+        // Todo: do this in a method
+        if (!isLogin) {
+            localStorage.setItem("guestName", guestName)
+        }
         navigate("/room");
     }
 
@@ -29,15 +33,15 @@ export default function Join() {
                         <p>👋 Join Room</p>
                     </div>
 
-                    <form id="lobby__form" onSubmit={handleSubmit}>
+                    <form id="lobby__form" onSubmit={handleJoin}>
                         {!isLogin &&
                             <div className="form__field__wrapper">
                                 <label>Your Name</label>
                                 <label>
                                     <input type="text"
                                            name="name"
-                                           onChange={(e) => setUsername(e.target.value)}
-                                           value={username}
+                                           onChange={(e) => setGuestName(e.target.value)}
+                                           value={guestName}
                                            required
                                            placeholder="Enter your display name..."
                                     />
