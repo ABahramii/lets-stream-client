@@ -8,7 +8,7 @@ export const useCheckLogin = () => {
 
     const checkLogin = async () => {
         const token = localStorage.getItem("token");
-        console.log(token);
+        const tokenExpiration = localStorage.getItem("tokenExpiredAt");
 
         if (token) {
             const url = `${BASE_URL}/auth/token/isValid/${token}`;
