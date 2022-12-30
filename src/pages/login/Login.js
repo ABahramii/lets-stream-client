@@ -22,11 +22,12 @@ export default function Login() {
             }
         }).then(res => {
             const data = res.data;
-            saveAuthData(data.accessToken, data.accessTokenExpireAt);
+            saveAuthData(data.accessToken, data.accessTokenExpireAt, data.username);
             navigate("/");
             window.location.reload();
         }).catch(exp => {
             console.log(JSON.stringify(exp))
+            // Todo: use toast
             alert("incorrect username or password.")
         })
     }
