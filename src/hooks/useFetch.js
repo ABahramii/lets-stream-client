@@ -1,10 +1,10 @@
 import axios from "axios";
 import {useState} from "react";
-// import ApiRoutes from "../config/ApiRoutes";
+import {BASE_URL} from "../config/Url";
 
-const apiInstance = axios.create(/*{
-    baseURL: ApiRoutes.BASE_URL
-}*/);
+const apiInstance = axios.create({
+    baseURL: BASE_URL
+});
 
 const useFetch = (axiosParams) => {
 

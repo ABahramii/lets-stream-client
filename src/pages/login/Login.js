@@ -2,7 +2,6 @@ import "../join/join.css"
 import {useState} from "react";
 import {useNavigate} from "react-router-dom";
 import useFetch from "../../hooks/useFetch";
-import {BASE_URL} from "../../config/Url";
 import saveAuthData from "../../data/authData";
 
 export default function Login() {
@@ -15,7 +14,7 @@ export default function Login() {
     const handleLogin = (event) => {
         event.preventDefault();
         loginReq({
-            url: `${BASE_URL}/auth/authenticate`,
+            url: `/auth/authenticate`,
             method: "POST",
             data: {
                 username,

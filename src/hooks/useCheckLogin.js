@@ -1,6 +1,5 @@
 import {useEffect, useState} from "react";
 import useFetch from "./useFetch";
-import {BASE_URL} from "../config/Url";
 
 export const useCheckLogin = () => {
     const [isLogin, setIsLogin] = useState(false);
@@ -11,7 +10,7 @@ export const useCheckLogin = () => {
         const tokenExpiration = localStorage.getItem("tokenExpiredAt");
 
         if (token) {
-            const url = `${BASE_URL}/auth/token/isValid/${token}`;
+            const url = `/auth/token/isValid/${token}`;
 
             tokenValidReq({
                 url: url,
