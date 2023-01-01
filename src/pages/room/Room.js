@@ -55,7 +55,7 @@ export default function Room() {
 
     const onConnected = () => {
         subscribe("/chatroom/members", (data) => {
-            onMemberJoined(data);
+            onMemberJoin(data);
         });
         subscribe("/chatroom/public", (data) => {
             onPublicMessageReceived(data);
@@ -70,8 +70,6 @@ export default function Room() {
         }
 
         let isLogin = checkLogin();
-        console.log("is login ?", isLogin);
-
         let member = {
             name: isLogin ? localStorage.getItem("username") : localStorage.getItem("guestName"),
             user: isLogin
@@ -79,9 +77,10 @@ export default function Room() {
         send("/app/member", member, {});
     }
 
-    const onMemberJoined = (data) => {
-        console.log("JOIN: ", data);
-        setMembers(prevState => [...prevState, data]);
+    const onMemberJoin = (data) => {
+        if (data.name !== undefined) {
+            setMembers(prevState => [...prevState, data]);
+        }
     }
 
     const onPublicMessageReceived = (payloadData) => {
