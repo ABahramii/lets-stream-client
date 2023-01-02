@@ -8,7 +8,7 @@ import checkLogin from "../../service/checkLogin";
 
 export default function Room() {
     const [sendMessage, setSendMessage] = useState("");
-    const [publicChats, setPublicChats] = useState([]);
+    const [chats, setChats] = useState([]);
     const [members, setMembers] = useState([]);
 
     const [fetchMembersReq] = useFetch();
@@ -30,7 +30,7 @@ export default function Room() {
     const fetchMembers = () => {
         fetchMembersReq({
             // Todo: uuid must be dynamic
-            url: `/room/a0daff30-06af-418a-ad47-9d07b79aa6e3/members`,
+            url: `/room/9184c5aa-4778-4cb2-ad3f-91484e3f6763/members`,
             method: "GET",
         }).then(res => {
             setMembers(members.concat(res.data));
@@ -43,10 +43,10 @@ export default function Room() {
     const fetchChats = () => {
         fetchChatsReq({
             // Todo: uuid must be dynamic
-            url: `/room/a0daff30-06af-418a-ad47-9d07b79aa6e3/chats`,
+            url: `/room/9184c5aa-4778-4cb2-ad3f-91484e3f6763/chats`,
             method: "GET",
         }).then(res => {
-            setPublicChats(publicChats.concat(res.data));
+            setChats(chats.concat(res.data));
         }).catch(exp => {
             console.log(JSON.stringify(exp))
             console.log("could not fetch users")
@@ -58,7 +58,7 @@ export default function Room() {
             onMemberJoin(data);
         });
         subscribe("/chatroom/public", (data) => {
-            onPublicMessageReceived(data);
+            onChatReceived(data);
         });
         memberJoin();
     }
@@ -83,31 +83,37 @@ export default function Room() {
         }
     }
 
-    const onPublicMessageReceived = (payloadData) => {
-        switch (payloadData.status) {
-
+    const onChatReceived = (data) => {
+        let chat = {
+            message: data.message,
+            time: data.time,
+            senderName: data.senderName,
+            senderIsUser: data.senderIsUser
         }
+        setChats(prevState => [...prevState, chat]);
+        console.log(chats)
     }
 
-    const handleKeyDown = (event) => {
+    const handleSendMessage = (event) => {
         event.preventDefault();
-        if (event.key === "Enter") {
-            console.log(sendMessage);
-        }
-    }
-
-    /*const sendPublicMessage = () => {
-        if (stompClient) {
-            let chatMessage = {
-                senderName: user.username,
-                message: sendMessage,
-                date: Date.now().toString(),
-                status: "MESSAGE"
-            }
-            stompClient.send("/app/message", {}, JSON.stringify(chatMessage));
+        if (sendMessage !== "") {
+            sendChat();
             setSendMessage("");
         }
-    }*/
+    }
+
+    // Todo: send request with authentication
+    const sendChat = () => {
+        let isLogin = checkLogin();
+
+        let chat = {
+            message: sendMessage,
+            time: new Date().toLocaleTimeString([], {hour: "2-digit", minute: "2-digit"}),
+            senderName: isLogin ? localStorage.getItem("username") : localStorage.getItem("guestName"),
+            senderIsUser: isLogin
+        }
+        send("/app/message", chat, {});
+    }
 
     return (
         <>
@@ -172,9 +178,9 @@ export default function Room() {
                     <section id="messages__container">
                         <div id="messages">
                             {
-                                publicChats.map((chat, index) => (
+                                chats.map((chat, index) => (
                                     <div key={index} className="message__wrapper">
-                                        <img className="avatar__md" src={testImg} alt="world"/>
+                                        {/*<img className="avatar__md" src={testImg} alt="world"/>*/}
                                         <div className="message__body">
                                             <strong className="message__author">{chat.senderName}</strong>
                                             <small className="message__timestamp">{chat.time}</small>
@@ -185,11 +191,11 @@ export default function Room() {
                             }
                         </div>
 
-                        <form id="message__form">
+                        <form id="message__form" onSubmit={handleSendMessage}>
                             <input
                                 type="text"
+                                value={sendMessage}
                                 onChange={(event) => setSendMessage(event.target.value)}
-                                onKeyDown={handleKeyDown}
                                 placeholder="Send a message...."
                             />
                         </form>
