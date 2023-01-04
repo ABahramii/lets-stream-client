@@ -30,7 +30,7 @@ export default function Room() {
     const fetchMembers = () => {
         fetchMembersReq({
             // Todo: uuid must be dynamic
-            url: `/room/9184c5aa-4778-4cb2-ad3f-91484e3f6763/members`,
+            url: `/room/c2d89dc4-71b8-4395-86e7-038201c8fbf1/members`,
             method: "GET",
         }).then(res => {
             setMembers(members.concat(res.data));
@@ -43,7 +43,7 @@ export default function Room() {
     const fetchChats = () => {
         fetchChatsReq({
             // Todo: uuid must be dynamic
-            url: `/room/9184c5aa-4778-4cb2-ad3f-91484e3f6763/chats`,
+            url: `/room/c2d89dc4-71b8-4395-86e7-038201c8fbf1/chats`,
             method: "GET",
         }).then(res => {
             setChats(chats.concat(res.data));
@@ -74,11 +74,13 @@ export default function Room() {
             name: isLogin ? localStorage.getItem("username") : localStorage.getItem("guestName"),
             user: isLogin
         }
+        console.log("member joined: ", member);
         send("/app/member", member, {});
     }
 
     const onMemberJoin = (data) => {
         if (data.name !== undefined) {
+            console.log("receive member: ", data);
             setMembers(prevState => [...prevState, data]);
         }
     }
@@ -106,13 +108,17 @@ export default function Room() {
     const sendChat = () => {
         let isLogin = checkLogin();
 
-        let chat = {
-            message: sendMessage,
-            time: new Date().toLocaleTimeString([], {hour: "2-digit", minute: "2-digit"}),
-            senderName: isLogin ? localStorage.getItem("username") : localStorage.getItem("guestName"),
-            senderIsUser: isLogin
+        if (isLogin) {
+            let chat = {
+                message: sendMessage,
+                time: new Date().toLocaleTimeString([], {hour: "2-digit", minute: "2-digit"}),
+                senderName: localStorage.getItem("username"),
+                senderIsUser: isLogin
+            }
+            send("/app/message", chat, {});
+        } else {
+            // Todo: redirect to login page
         }
-        send("/app/message", chat, {});
     }
 
     return (
