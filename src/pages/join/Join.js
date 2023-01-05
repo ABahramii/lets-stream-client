@@ -1,27 +1,75 @@
 import "./join.css"
-import {useAuthContext} from "../../hooks/useAuthContext";
 import {useNavigate} from "react-router-dom";
-import {useState} from "react";
-import {useCheckLogin} from "../../hooks/useCheckLogin";
+import {useEffect, useState} from "react";
+import checkLogin from "../../service/checkLogin";
+import useFetch from "../../hooks/useFetch";
+import authData from "../../data/authData";
 
 export default function Join() {
     const [guestName, setGuestName] = useState("");
     const [roomName, setRoomName] = useState("");
 
-    const {dispatch} = useAuthContext();
     const navigate = useNavigate();
-    // Todo: when page loaded first render hide div and then hide it
-    const {isLogin} = useCheckLogin();
+    const [isLogin, setIsLogin] = useState(false);
+    const [fetchUserRequest] = useFetch();
+    const [checkJoinRequest] = useFetch();
 
+    useEffect(() => {
+        setIsLogin(checkLogin());
+    }, [isLogin])
+
+    const onError = () => {
+        authData.removeAuthData();
+        navigate("/login");
+        window.location.reload();
+    }
 
     const handleJoin = (event) => {
         event.preventDefault();
-        dispatch({type: "CONNECT", payload: guestName});
-        // Todo: do this in a method
-        if (!isLogin) {
-            localStorage.setItem("guestName", guestName)
+        let member = {};
+        setIsLogin(checkLogin());
+
+        if (isLogin) {
+            fetchUserRequest({
+                url: "/auth/token/isValid",
+                method: "POST",
+                data: {
+                    username: localStorage.getItem("username"),
+                    token: localStorage.getItem("token")
+                }
+            }).then(res => {
+                if (res.data.isTokenValid) {
+                    member.name = localStorage.getItem("username");
+                    member.user = true;
+                } else {
+                    onError();
+                }
+            }).catch(exp => {
+                onError();
+            })
+        } else {
+            localStorage.setItem("guestName", guestName);
+            member.name = guestName;
+            member.user = false;
         }
-        navigate("/room");
+
+        console.log("member: ", member)
+
+        checkJoinRequest({
+            url: `room/4ba4c171-8023-450f-ac2d-aa6d15257ce5/checkJoin`,
+            method: "POST",
+            data: member
+        }).then(res => {
+            console.log(res.data);
+            if (res.data.canJoin) {
+                navigate("/room")
+            } else {
+                // Todo: duplicte error with toast
+                console.log("user already exists at room");
+            }
+        }).catch(exp => {
+            console.log(JSON.stringify(exp));
+        })
     }
 
     return (
