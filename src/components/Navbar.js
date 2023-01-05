@@ -1,10 +1,16 @@
 import "./navbar.css"
 import logoImage from "../images/dark-logo.png"
 import {Link} from "react-router-dom";
-import {useCheckLogin} from "../hooks/useCheckLogin";
+import checkLogin from "../service/checkLogin";
+import {useEffect, useState} from "react";
 
 export default function Navbar() {
-    const {isLogin} = useCheckLogin();
+    const [isLogin, setIsLogin] = useState(false);
+
+    useEffect(() => {
+        console.log("in useEffect")
+        setIsLogin(checkLogin());
+    }, [isLogin])
 
     return (
         <nav className="navbar">
