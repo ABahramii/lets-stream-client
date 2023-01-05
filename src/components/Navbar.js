@@ -8,7 +8,6 @@ export default function Navbar() {
     const [isLogin, setIsLogin] = useState(false);
 
     useEffect(() => {
-        console.log("in useEffect")
         setIsLogin(checkLogin());
     }, [isLogin])
 
