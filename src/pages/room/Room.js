@@ -67,7 +67,7 @@ export default function Room() {
         subscribe(`/room/members/${UUID}`, (data) => {
             onMemberJoin(data);
         });
-        subscribe("/chatroom/public", (data) => {
+        subscribe(`/room/chats/${UUID}`, (data) => {
             onChatReceived(data);
         });
         memberJoin();
@@ -122,9 +122,9 @@ export default function Room() {
                 senderName: localStorage.getItem("username"),
                 senderIsUser: isLogin
             }
-            send("/app/message", chat, {});
+            send(`/app/chat/${UUID}`, chat, {});
         } else {
-            // Todo: redirect to login page
+            // Todo: toast -> you must logged in to send message
         }
     }
 
