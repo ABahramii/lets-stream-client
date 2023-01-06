@@ -54,12 +54,12 @@ export default function Login() {
                             </label>
                         </div>
 
+                        {/*Todo: check password weakness*/}
                         <div className="form__field__wrapper">
                             <label>Password</label>
                             <label>
                                 <input
-                                    // Todo: set type to password
-                                    type="text"
+                                    type="password"
                                     onChange={(e) => setPassword(e.target.value)}
                                     value={password}
                                     placeholder="Enter your password..."
