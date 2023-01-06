@@ -64,7 +64,7 @@ export default function Room() {
     }
 
     const onConnected = () => {
-        subscribe("/chatroom/members", (data) => {
+        subscribe(`/room/members/${UUID}`, (data) => {
             onMemberJoin(data);
         });
         subscribe("/chatroom/public", (data) => {
@@ -84,7 +84,7 @@ export default function Room() {
             name: isLogin ? localStorage.getItem("username") : localStorage.getItem("guestName"),
             user: isLogin
         }
-        send("/app/member", member, {});
+        send(`/app/member/${UUID}`, member, {});
     }
 
     const onMemberJoin = (data) => {
