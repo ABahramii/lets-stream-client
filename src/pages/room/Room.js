@@ -12,6 +12,7 @@ export default function Room() {
     const [chats, setChats] = useState([]);
     const [members, setMembers] = useState([]);
 
+    const [fetchRoomRequest] = useFetch();
     const [fetchMembersReq] = useFetch();
     const [fetchChatsReq] = useFetch();
     const navigate = useNavigate();
@@ -24,13 +25,24 @@ export default function Room() {
     );
 
     useEffect(() => {
-        fetchMembers();
-        fetchChats();
+        fetchRoomRequest({
+            url: `room/exists/${UUID}`,
+            method: "GET",
+        }).then(res => {
+            if (res.data.exists) {
+                fetchMembers();
+                fetchChats();
+            } else {
+                // Todo: navigate to NotFound page
+                navigate("/join");
+            }
+        }).catch(exp => {
+            navigate("/join");
+        })
     }, []);
 
     const fetchMembers = () => {
         fetchMembersReq({
-            // Todo: uuid must be dynamic
             url: `/room/${UUID}/members`,
             method: "GET",
         }).then(res => {
@@ -42,7 +54,6 @@ export default function Room() {
 
     const fetchChats = () => {
         fetchChatsReq({
-            // Todo: uuid must be dynamic
             url: `/room/${UUID}/chats`,
             method: "GET",
         }).then(res => {
