@@ -13,7 +13,7 @@ function App() {
                 <Routes>
                     <Route path="/" element={<Lobby />} />
                     <Route path="/join" element={<Join />} />
-                    <Route path="/room" element={<Room />} />
+                    <Route path="/room/:UUID" element={<Room />}/>
                     <Route path="/login" element={<Login />} />
                 </Routes>
             </BrowserRouter>

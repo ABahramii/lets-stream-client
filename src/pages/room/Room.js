@@ -3,10 +3,11 @@ import {useEffect, useState} from "react";
 import testImg from "../../images/dark-logo.png";
 import {useStomp} from "usestomp-hook/lib";
 import useFetch from "../../hooks/useFetch";
-import {useNavigate} from "react-router-dom";
+import {useNavigate, useParams} from "react-router-dom";
 import checkLogin from "../../service/checkLogin";
 
 export default function Room() {
+    const {UUID} = useParams();
     const [sendMessage, setSendMessage] = useState("");
     const [chats, setChats] = useState([]);
     const [members, setMembers] = useState([]);
@@ -30,12 +31,11 @@ export default function Room() {
     const fetchMembers = () => {
         fetchMembersReq({
             // Todo: uuid must be dynamic
-            url: `/room/c2d89dc4-71b8-4395-86e7-038201c8fbf1/members`,
+            url: `/room/${UUID}/members`,
             method: "GET",
         }).then(res => {
             setMembers(members.concat(res.data));
         }).catch(exp => {
-            console.log(JSON.stringify(exp))
             console.log("could not fetch users")
         })
     }
@@ -43,12 +43,11 @@ export default function Room() {
     const fetchChats = () => {
         fetchChatsReq({
             // Todo: uuid must be dynamic
-            url: `/room/c2d89dc4-71b8-4395-86e7-038201c8fbf1/chats`,
+            url: `/room/${UUID}/chats`,
             method: "GET",
         }).then(res => {
             setChats(chats.concat(res.data));
         }).catch(exp => {
-            console.log(JSON.stringify(exp))
             console.log("could not fetch users")
         })
     }
@@ -74,13 +73,11 @@ export default function Room() {
             name: isLogin ? localStorage.getItem("username") : localStorage.getItem("guestName"),
             user: isLogin
         }
-        console.log("member joined: ", member);
         send("/app/member", member, {});
     }
 
     const onMemberJoin = (data) => {
         if (data.name !== undefined) {
-            console.log("receive member: ", data);
             setMembers(prevState => [...prevState, data]);
         }
     }
@@ -93,7 +90,6 @@ export default function Room() {
             senderIsUser: data.senderIsUser
         }
         setChats(prevState => [...prevState, chat]);
-        console.log(chats)
     }
 
     const handleSendMessage = (event) => {
