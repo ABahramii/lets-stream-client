@@ -11,6 +11,7 @@ export default function Join() {
 
     const navigate = useNavigate();
     const [isLogin, setIsLogin] = useState(false);
+    const [fetchRoomRequest] = useFetch();
     const [fetchUserRequest] = useFetch();
     const [checkJoinRequest] = useFetch();
 
@@ -24,11 +25,11 @@ export default function Join() {
         window.location.reload();
     }
 
-    const handleJoin = (event) => {
-        event.preventDefault();
+    const tt = (roomUUID) => {
         let member = {};
         setIsLogin(checkLogin());
 
+        // Todo: handle this item in user member join method
         if (isLogin) {
             fetchUserRequest({
                 url: "/auth/token/isValid",
@@ -53,22 +54,36 @@ export default function Join() {
             member.user = false;
         }
 
-        console.log("member: ", member)
-
         checkJoinRequest({
-            url: `room/4ba4c171-8023-450f-ac2d-aa6d15257ce5/checkJoin`,
+            url: `room/${roomUUID}/checkJoin`,
             method: "POST",
             data: member
         }).then(res => {
-            console.log(res.data);
             if (res.data.canJoin) {
-                navigate("/room")
+                navigate(`/room/${roomUUID}`);
             } else {
-                // Todo: duplicte error with toast
+                // Todo: duplicate error with toast
                 console.log("user already exists at room");
             }
         }).catch(exp => {
             console.log(JSON.stringify(exp));
+        })
+    }
+
+
+    const handleJoin = (event) => {
+        event.preventDefault();
+
+        fetchRoomRequest({
+            url: `/room/${roomName}`,
+            method: "GET",
+        }).then(res => {
+            if (res.data) {
+                tt(res.data);
+            }
+        }).catch(exp => {
+            // Todo: toast message
+            console.log("room not found");
         })
     }
 
@@ -104,6 +119,7 @@ export default function Join() {
                                     type="text"
                                     onChange={(e) => setRoomName(e.target.value)}
                                     value={roomName}
+                                    required
                                     placeholder="Enter room name..."
                                 />
                             </label>
