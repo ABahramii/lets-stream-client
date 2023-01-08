@@ -87,5 +87,6 @@
 }
 
 .avatar__option__selected {
-    border: 3px solid #845695;
+    /*border: 3px solid #845695;*/
+    border: 3px solid #2aca3e;
 }

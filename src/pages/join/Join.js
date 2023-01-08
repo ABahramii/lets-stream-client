@@ -4,6 +4,7 @@ import {useEffect, useState} from "react";
 import checkLogin from "../../service/checkLogin";
 import useFetch from "../../hooks/useFetch";
 import authData from "../../data/authData";
+import testImg from "../../images/dark-logo.png";
 
 export default function Join() {
     const [guestName, setGuestName] = useState("");
@@ -124,6 +125,20 @@ export default function Join() {
                                 />
                             </label>
                         </div>
+
+                        {/*Todo: select avatar when user logged in */}
+                        {/*<div className="form__field__wrapper">
+                            <label>Select Avatar</label>
+                            <div id="avatar__selection">
+                                <img className="avatar__option avatar__option__selected" src={testImg} alt=""/>
+                                <img className="avatar__option" src={testImg} alt=""/>
+                                <img className="avatar__option" src={testImg} alt=""/>
+                                <img className="avatar__option" src={testImg} alt=""/>
+                                <img className="avatar__option" src={testImg} alt=""/>
+                                <img className="avatar__option" src={testImg} alt=""/>
+                                <img className="avatar__option" src={testImg} alt=""/>
+                            </div>
+                        </div>*/}
 
                         <div className="form__field__wrapper">
                             <button> Go to Room
