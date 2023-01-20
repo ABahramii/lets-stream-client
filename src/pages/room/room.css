@@ -174,7 +174,7 @@
     width: calc(100% - 40.7rem);
     position: fixed;
     left: 15.7rem;
-    top: calc(100vh - 72px);
+    /*top: clac(100vh - 72px);*/
     overflow-y: auto;
     height: 100%;
 }
@@ -182,7 +182,8 @@
 #stream__box{
     background-color: #3f434a;
     height: 60vh;
-    display: none;
+    /*display: none;*/
+    display: block;
 }
 
 #stream__box .video__container{
@@ -218,8 +219,7 @@
     overflow: hidden;
     height: 300px;
     width: 300px;
-    /* Todo */
-    /*background-image: url("/images/logo.png");*/
+    /*background-image: url("../../images/dark-logo.png");*/
     background-repeat: no-repeat;
     background-position: center;
     background-size: 75px;
@@ -232,6 +232,24 @@
 
 .video-player video{
     border-radius: 50%;
+}
+
+.ab {
+    width: 100%;
+    height: 100%;
+    position: relative;
+    overflow: hidden;
+    background-color: black;
+}
+
+.agora_video_player {
+    width: 100%;
+    height: 100%;
+    position: absolute;
+    left: 0;
+    top: 0;
+    transform: rotateY(180deg);
+    object-fit: cover;
 }
 
 @media (max-width: 1400px) {
