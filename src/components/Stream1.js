@@ -7,10 +7,9 @@ import checkLogin from "../service/checkLogin";
 export default function Stream({roomKey}) {
     const pubVideo = useRef();
     const subVideo = useRef();
-    const [isLogin, setIsLogin] = useState(false);
-    // const [isPub, setIsPub] = useState(false);
-    const isPub = isLogin;
-    const [streams, setStreams] = useState([]);
+    const [isPub, setIsPub] = useState(false);
+    // const [streams, setStreams] = useState([]);
+    const [client, setClient] = useState(null);
 
     const config = {
         iceServers: [
@@ -19,56 +18,40 @@ export default function Stream({roomKey}) {
             },
         ],
     };
-    const signal = new IonSFUJSONRPCSignal("ws://localhost:7000/ws");
-    const client = new Client(signal, config)
+    // const signal = new IonSFUJSONRPCSignal("ws://localhost:7000/ws");
+
 
     useEffect(() => {
-        // signal = new IonSFUJSONRPCSignal("ws://localhost:7000/ws");
-        // client = new Client(signal, config);
-        console.log("i'm signal: ", signal);
-        console.log("i'm client: ", client);
+        const signal = new IonSFUJSONRPCSignal("ws://localhost:7000/ws");
 
-        console.log("joined to room: ", roomKey);
+        let cc = new Client(signal, config);
+        setClient(cc);
 
-        // let isLogin = checkLogin();
-        setIsLogin(checkLogin());
-        // console.log("check login: ", isLogin)
-        console.log("is pub: ", isPub);
-    }, []);
+        signal.onopen = () => cc.join(roomKey);
 
-    useEffect(() => {
-        if (!isLogin) {
-            console.log("i'm a subscriber.")
-            client.ontrack = (track, stream) => {
-                console.log("got track: ", track.id, "for stream: ", stream.id);
+        cc.ontrack = (track, stream) => {
+            console.log("got track: ", track.id, "for stream: ", stream.id);
 
-                track.onunmute = () => {
-                    if (!streams[stream.id]) {
-                        console.log("ready to subscribe")
-                        subVideo.current.srcObject = stream;
-                        subVideo.current.autoplay = true;
-                        subVideo.current.muted = false;
+            track.onunmute = () => {
+                    console.log("ready to subscribe")
+                    subVideo.current.srcObject = stream;
+                    subVideo.current.autoplay = true;
+                    subVideo.current.muted = false;
 
-                        // let streams[stream.id] = { stream };
-                        setStreams(prevState => [...prevState, [stream.id] = { stream }])
-                    }
-
-                    stream.onremovetrack = () => {
-                        try {
-                            if (streams[stream.id]) {
-                                subVideo.current.srcObject = null;
-                                setStreams(prevState => prevState.filter((item) => item.id !== stream.id));
-                                // delete streams[];
-                            }
-                        } catch (err) {
-                            console.log("error: ", err);
-                        }
+                stream.onremovetrack = () => {
+                    try {
+                        subVideo.current.srcObject = null;
+                    } catch (err) {
+                        console.log("error: ", err);
                     }
                 }
             }
         }
-        signal.onopen = () => client.join(roomKey);
-    }, [isLogin]);
+
+        let isLogin = checkLogin();
+        setIsPub(isLogin);
+
+    }, []);
 
     const start = (event) => {
         if (event) {
@@ -83,21 +66,9 @@ export default function Stream({roomKey}) {
                     pubVideo.current.controls = true;
                     pubVideo.current.muted = true;
                     client.publish(media);
-            }).catch(console.error);
+                }).catch(console.error);
         } else {
-            LocalStream.getDisplayMedia({
-                resolution: 'vga',
-                video: true,
-                audio: true,
-                codec: "vp8"
-            })
-                .then((media) => {
-                    pubVideo.current.srcObject = media;
-                    pubVideo.current.autoplay = true;
-                    pubVideo.current.controls = true;
-                    pubVideo.current.muted = true;
-                    client.publish(media);
-            }).catch(console.error);
+            console.log("publish screen");
         }
     }
 
@@ -150,7 +121,7 @@ export default function Stream({roomKey}) {
                 </button>
             </div>
 
-            {isPub &&
+            {
                 <button id="join-btn" onClick={() => start(true)}>Join Stream</button>
             }
         </section>
