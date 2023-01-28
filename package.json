@@ -13,6 +13,7 @@
     "@testing-library/user-event": "^13.5.0",
     "axios": "^1.2.1",
     "hls.js": "^1.2.9",
+    "ion-sdk-js": "^1.8.2",
     "net": "^1.0.2",
     "react": "^18.2.0",
     "react-dom": "^18.2.0",

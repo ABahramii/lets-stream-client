@@ -17,6 +17,7 @@ export default function Room() {
     const [fetchMembersReq] = useFetch();
     const [fetchChatsReq] = useFetch();
     const navigate = useNavigate();
+    const [isPub, setIsPub] = useState(false);
 
     const {subscribe, send} = useStomp(
         {
@@ -26,6 +27,7 @@ export default function Room() {
     );
 
     useEffect(() => {
+        setIsPub(checkLogin());
         fetchRoomRequest({
             url: `room/exists/${UUID}`,
             method: "GET",
@@ -154,7 +156,10 @@ export default function Room() {
                     </section>
 
                     {/* Todo: section 2*/}
-                    <Stream />
+                    <Stream
+                        roomKey={UUID}
+                        // isPub={isPub}
+                    />
 
                     {/* Todo: section 3*/}
                     {/*let messagesContainer = document.getElementById('messages');*/}

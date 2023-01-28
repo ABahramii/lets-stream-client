@@ -248,8 +248,8 @@
     position: absolute;
     left: 0;
     top: 0;
-    transform: rotateY(180deg);
-    object-fit: cover;
+    /*transform: rotateY(180deg);*/
+    /*object-fit: cover;*/
 }
 
 @media (max-width: 1400px) {
