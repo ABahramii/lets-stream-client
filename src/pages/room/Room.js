@@ -6,6 +6,8 @@ import useFetch from "../../hooks/useFetch";
 import {useNavigate, useParams} from "react-router-dom";
 import checkLogin from "../../service/checkLogin";
 import Stream from "../../components/Stream";
+import Stream1 from "../../components/Stream1";
+import {WEBSOCKET_URL} from "../../config/Url";
 
 export default function Room() {
     const {UUID} = useParams();
@@ -16,12 +18,13 @@ export default function Room() {
     const [fetchRoomRequest] = useFetch();
     const [fetchMembersReq] = useFetch();
     const [fetchChatsReq] = useFetch();
+    const [fetchUserIsOwner] = useFetch();
     const navigate = useNavigate();
     const [isPub, setIsPub] = useState(false);
 
     const {subscribe, send} = useStomp(
         {
-            brokerURL: "ws://localhost:8080/ws"
+            brokerURL: WEBSOCKET_URL
         },
         () => onConnected()
     );
@@ -35,6 +38,7 @@ export default function Room() {
             if (res.data.exists) {
                 fetchMembers();
                 fetchChats();
+                roomOwner();
             } else {
                 // Todo: navigate to NotFound page
                 navigate("/join");
@@ -43,6 +47,22 @@ export default function Room() {
             navigate("/join");
         })
     }, []);
+
+    const roomOwner = () => {
+        const token = localStorage.getItem("token");
+        if (token) {
+            fetchUserIsOwner({
+                url: `/room/${UUID}/userIsRoomOwner/${token}`,
+                method: "GET",
+            }).then(res => {
+                setIsPub(res.data.isRoomOwner);
+            }).catch(exp => {
+                setIsPub(false);
+            })
+        } else {
+            setIsPub(false);
+        }
+    }
 
     const fetchMembers = () => {
         fetchMembersReq({
@@ -156,9 +176,9 @@ export default function Room() {
                     </section>
 
                     {/* Todo: section 2*/}
-                    <Stream
+                    <Stream1
                         roomKey={UUID}
-                        // isPub={isPub}
+                        isPub={isPub}
                     />
 
                     {/* Todo: section 3*/}

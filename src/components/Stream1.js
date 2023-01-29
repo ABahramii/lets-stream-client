@@ -4,10 +4,9 @@ import {Client, LocalStream} from "ion-sdk-js";
 import {IonSFUJSONRPCSignal} from "ion-sdk-js/lib/signal/json-rpc-impl";
 import checkLogin from "../service/checkLogin";
 
-export default function Stream({roomKey}) {
+export default function Stream({roomKey, isPub}) {
     const pubVideo = useRef();
     const subVideo = useRef();
-    const [isPub, setIsPub] = useState(false);
     // const [streams, setStreams] = useState([]);
     const [client, setClient] = useState(null);
 
@@ -47,10 +46,6 @@ export default function Stream({roomKey}) {
                 }
             }
         }
-
-        let isLogin = checkLogin();
-        setIsPub(isLogin);
-
     }, []);
 
     const start = (event) => {
@@ -121,7 +116,7 @@ export default function Stream({roomKey}) {
                 </button>
             </div>
 
-            {
+            {isPub &&
                 <button id="join-btn" onClick={() => start(true)}>Join Stream</button>
             }
         </section>
