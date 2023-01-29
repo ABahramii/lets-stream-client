@@ -26,7 +26,7 @@ export default function Join() {
         window.location.reload();
     }
 
-    const tt = (roomUUID) => {
+    const joinRoom = (roomUUID) => {
         let member = {};
         setIsLogin(checkLogin());
 
@@ -80,7 +80,7 @@ export default function Join() {
             method: "GET",
         }).then(res => {
             if (res.data) {
-                tt(res.data);
+                joinRoom(res.data);
             }
         }).catch(exp => {
             // Todo: toast message
