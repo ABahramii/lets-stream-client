@@ -2,6 +2,7 @@ import "../pages/room/room.css"
 import {useEffect, useRef, useState} from "react";
 import {Client, LocalStream} from "ion-sdk-js";
 import {IonSFUJSONRPCSignal} from "ion-sdk-js/lib/signal/json-rpc-impl";
+import {RPC_SIGNAL_URL} from "../config/Url";
 
 export default function Stream({roomKey, isPub}) {
     const config = {
@@ -28,7 +29,7 @@ export default function Stream({roomKey, isPub}) {
     const [screenBtnClass, setScreenBtnClass] = useState("");
 
     useEffect(() => {
-        const signal = new IonSFUJSONRPCSignal("ws://localhost:7000/ws");
+        const signal = new IonSFUJSONRPCSignal(RPC_SIGNAL_URL);
 
         let cc = new Client(signal, config);
         setClient(cc);
@@ -39,10 +40,10 @@ export default function Stream({roomKey, isPub}) {
             console.log("got track: ", track.id, "for stream: ", stream.id);
 
             track.onunmute = () => {
-                    console.log("ready to subscribe")
-                    subVideo.current.srcObject = stream;
-                    subVideo.current.autoplay = true;
-                    subVideo.current.muted = false;
+                console.log("ready to subscribe")
+                subVideo.current.srcObject = stream;
+                subVideo.current.autoplay = true;
+                subVideo.current.muted = false;
 
                 stream.onremovetrack = () => {
                     try {
@@ -67,6 +68,7 @@ export default function Stream({roomKey, isPub}) {
                 .then((media) => {
                     setLocalStream(media);
                     setMicIsEnable(true);
+                    setCameraIsEnable(true);
 
                     console.log("local stream set.")
 
@@ -81,18 +83,24 @@ export default function Stream({roomKey, isPub}) {
         }
     }
 
-    const handleCamera = (event) => {
-        console.log("classname: ", event.currentTarget.classname);
+    const handleCamera = () => {
+        if (cameraIsEnable) {
+            localStream.mute("video");
+            setCameraIsEnable(false);
+            setCameraBtnClass("");
+        } else {
+            localStream.unmute("video");
+            setCameraIsEnable(true);
+            setCameraBtnClass("active");
+        }
     }
 
     const handleMic = () => {
         if (micIsEnable) {
-            // console.log("trying to disable mic")
             localStream.mute("audio");
             setMicIsEnable(false);
             setMicBtnClass("");
         } else {
-            // console.log("trying to enable mic")
             localStream.unmute("audio");
             setMicIsEnable(true);
             setMicBtnClass("active");
@@ -132,7 +140,7 @@ export default function Stream({roomKey, isPub}) {
 
             {isPub && showButtons &&
                 <div className="stream__actions">
-                    <button id="camera-btn" className={cameraBtnClass} onClick={event => handleCamera(event)}>
+                    <button id="camera-btn" className={cameraBtnClass} onClick={handleCamera}>
                         <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24">
                             <path
                                 d="M5 4h-3v-1h3v1zm10.93 0l.812 1.219c.743 1.115 1.987 1.781 3.328 1.781h1.93v13h-20v-13h3.93c1.341 0 2.585-.666 3.328-1.781l.812-1.219h5.86zm1.07-2h-8l-1.406 2.109c-.371.557-.995.891-1.664.891h-5.93v17h24v-17h-3.93c-.669 0-1.293-.334-1.664-.891l-1.406-2.109zm-11 8c0-.552-.447-1-1-1s-1 .448-1 1 .447 1 1 1 1-.448 1-1zm7 0c1.654 0 3 1.346 3 3s-1.346 3-3 3-3-1.346-3-3 1.346-3 3-3zm0-2c-2.761 0-5 2.239-5 5s2.239 5 5 5 5-2.239 5-5-2.239-5-5-5z"/>
