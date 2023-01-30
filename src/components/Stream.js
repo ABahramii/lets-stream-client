@@ -142,9 +142,10 @@ export default function Stream({roomKey, isPub}) {
         setCameraBtnClass("");
     }
 
-    /*const handleLeave = () => {
-
-    }*/
+    const handleLeave = () => {
+        client.close();
+        window.location.reload();
+    }
 
     return (
         <section id="stream__container">
@@ -189,7 +190,7 @@ export default function Stream({roomKey, isPub}) {
                                 d="M0 1v17h24v-17h-24zm22 15h-20v-13h20v13zm-6.599 4l2.599 3h-12l2.599-3h6.802z"/>
                         </svg>
                     </button>
-                    <button id="leave-btn">
+                    <button id="leave-btn" onClick={handleLeave}>
                         <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24">
                             <path d="M16 10v-5l8 7-8 7v-5h-8v-4h8zm-16-8v20h14v-2h-12v-16h12v-2h-14z"/>
                         </svg>
