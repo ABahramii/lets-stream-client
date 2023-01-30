@@ -24,7 +24,7 @@ export default function Room() {
 
     const {subscribe, send} = useStomp(
         {
-            brokerURL: WEBSOCKET_URL
+            brokerURL: "ws://localhost:8080/ws"
         },
         () => onConnected()
     );
