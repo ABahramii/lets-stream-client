@@ -176,7 +176,7 @@ export default function Room() {
                     </section>
 
                     {/* Todo: section 2*/}
-                    <Stream1
+                    <Stream
                         roomKey={UUID}
                         isPub={isPub}
                     />
