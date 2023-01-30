@@ -328,7 +328,7 @@
     background-color: #1a1a1a60;
     padding: 1rem;
     left: 50%;
-    display: none;
+    display: flex;
     gap: 1rem;
     transform: translateX(-50%);
 }
