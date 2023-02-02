@@ -6,8 +6,6 @@ import useFetch from "../../hooks/useFetch";
 import {useNavigate, useParams} from "react-router-dom";
 import checkLogin from "../../service/checkLogin";
 import Stream from "../../components/Stream";
-import Stream1 from "../../components/Stream1";
-import {WEBSOCKET_URL} from "../../config/Url";
 
 export default function Room() {
     const {UUID} = useParams();
