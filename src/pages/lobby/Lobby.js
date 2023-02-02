@@ -1,7 +1,78 @@
-export default function Lobby() {
-    return (
-        <div>
+import {useState} from "react";
 
+export default function Lobby() {
+
+    const [rooms, setRooms] = useState([
+        {
+            img: "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcTk2ovDI44rCXwzd5gln9wHMO0z3Hsx2KB-8Q&usqp=CAUlPSqkM17H/AM+3+9/K1KlSqWI//9k=TpLk7pofiN1KlTXJm+DIlS40qVbnOUX6glPSqkM17H/AM+3+9/K1KlSqWI//9k=",
+            memberCount: 12,
+            name: "Let's stream",
+            owner: "amir bahrami"
+        },
+        {
+            img: "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcTk2ovDI44rCXwzd5gln9wHMO0z3Hsx2KB-8Q&usqp=CAUlPSqkM17H/AM+3+9/K1KlSqWI//9k=TpLk7pofiN1KlTXJm+DIlS40qVbnOUX6glPSqkM17H/AM+3+9/K1KlSqWI//9k=",
+            memberCount: 12,
+            name: "Let's stream",
+            owner: "amir bahrami"
+        },
+        {
+            img: "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcTk2ovDI44rCXwzd5gln9wHMO0z3Hsx2KB-8Q&usqp=CAUlPSqkM17H/AM+3+9/K1KlSqWI//9k=TpLk7pofiN1KlTXJm+DIlS40qVbnOUX6glPSqkM17H/AM+3+9/K1KlSqWI//9k=",
+            memberCount: 12,
+            name: "Let's stream",
+            owner: "amir bahrami"
+        },
+        {
+            img: "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcTk2ovDI44rCXwzd5gln9wHMO0z3Hsx2KB-8Q&usqp=CAUlPSqkM17H/AM+3+9/K1KlSqWI//9k=TpLk7pofiN1KlTXJm+DIlS40qVbnOUX6glPSqkM17H/AM+3+9/K1KlSqWI//9k=",
+            memberCount: 12,
+            name: "Let's stream",
+            owner: "amir bahrami"
+        },
+        {
+            img: "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcTk2ovDI44rCXwzd5gln9wHMO0z3Hsx2KB-8Q&usqp=CAUlPSqkM17H/AM+3+9/K1KlSqWI//9k=TpLk7pofiN1KlTXJm+DIlS40qVbnOUX6glPSqkM17H/AM+3+9/K1KlSqWI//9k=",
+            memberCount: 12,
+            name: "Let's stream",
+            owner: "amir bahrami"
+        },
+        {
+            img: "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcTk2ovDI44rCXwzd5gln9wHMO0z3Hsx2KB-8Q&usqp=CAUlPSqkM17H/AM+3+9/K1KlSqWI//9k=TpLk7pofiN1KlTXJm+DIlS40qVbnOUX6glPSqkM17H/AM+3+9/K1KlSqWI//9k=",
+            memberCount: 12,
+            name: "Let's stream",
+            owner: "amir bahrami"
+        },
+        {
+            img: "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcTk2ovDI44rCXwzd5gln9wHMO0z3Hsx2KB-8Q&usqp=CAUlPSqkM17H/AM+3+9/K1KlSqWI//9k=TpLk7pofiN1KlTXJm+DIlS40qVbnOUX6glPSqkM17H/AM+3+9/K1KlSqWI//9k=",
+            memberCount: 12,
+            name: "Let's stream",
+            owner: "amir bahrami"
+        }
+    ]);
+    return (
+
+        <div className='w-full rounded-lg h-full flex  justify-center relative top-20'>
+            <div className='w-4/5  rounded-lg h-full flex text-gray-50 flex-wrap items-end justify-left '>
+            {
+                rooms?.map((room) =>
+                    <div className=' w-[475px] bg-neutral-700  flex flex-col justify-center items-center p-2 py-4 m-2'>
+                        <div className={'m-3 w-full'}>
+                            <img src={room.img} className={'rounded-lg w-full object-cover'}/>
+                        </div>
+                        <div className='p-3 w-full items-start'>
+                            Members count <span className={'m-1'}>{room.memberCount}</span>
+                        </div>
+                        <div className={'font-bold text-[20px] w-full p-2 flex justify-start m-2'}>
+                            {room.name}
+                        </div>
+                        <div className={'flex flex-row justify-between w-full mb-3'}>
+                            <div className={'p-2'}>{room.owner}</div>
+                            <div className={'bg-purple-700 rounded-lg mx-2 px-2 py-1 cursor-pointer'}>Join stream
+                            </div>
+                        </div>
+
+                    </div>
+                )
+
+            }
+            </div>
         </div>
     );
 }

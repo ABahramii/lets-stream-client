@@ -147,6 +147,10 @@ a {
   align-items: center;
 }*/
 
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
 #members__button,
 #chat__button {
   display: none;
