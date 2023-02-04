@@ -51,7 +51,35 @@ export default function Lobby() {
     ]);
 
     return (
-        <div className='w-full rounded-lg h-full flex  justify-center relative top-20 pb-10'>
+        <div className="a1">
+            <div className='a2'>
+                {
+                    rooms?.map((room) =>
+                        <div className='a3'>
+                            <div className="a4">
+                                <img src={room.img} className="a5"/>
+                            </div>
+                            <div className='a6'>
+                                <img src={membersIcon} className="a7"/>
+                                <div className="a8">Members count  {room.memberCount}</div>
+                            </div>
+                            <div className={'a9'}>
+                                {room.name}
+                            </div>
+                            <div className={'a10'}>
+                                <div className={'a11'}>{room.owner}</div>
+                                <div className={'a12'}>Join stream
+                                </div>
+                            </div>
+
+                        </div>
+                    )
+
+                }
+            </div>
+        </div>
+
+        /*<div className='w-full rounded-lg h-full flex  justify-center relative top-20 pb-10'>
             <div className='w-4/5 rounded-lg h-full flex text-gray-50 flex-wrap items-end justify-left '>
             {
                 rooms?.map((room) =>
@@ -74,9 +102,8 @@ export default function Lobby() {
 
                     </div>
                 )
-
             }
             </div>
-        </div>
+        </div>*/
     );
 }

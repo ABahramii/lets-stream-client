@@ -1,0 +1,105 @@
+.a1 {
+    display: flex;
+    position: relative;
+    top: 5rem;
+    padding-bottom: 2.5rem;
+    justify-content: center;
+    width: 100%;
+    height: 100%;
+    border-radius: 0.5rem;
+}
+
+.a2 {
+    display: flex;
+    color: #F9FAFB;
+    flex-wrap: wrap;
+    align-items: flex-end;
+    width: 80%;
+    height: 100%;
+    border-radius: 0.5rem;
+}
+
+.a3 {
+    display: flex;
+    padding-left: 0.5rem;
+    padding-right: 0.5rem;
+    padding-bottom: 1rem;
+    margin: 0.5rem;
+    margin-top: 0;
+    margin-bottom: 1rem;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    border-radius: 0.5rem;
+    width: 475px;
+    background-color: rgb(64 64 64);
+}
+
+.a4 {
+    margin: 0.75rem;
+    width: 100%;
+}
+
+.a5 {
+    object-fit: cover;
+    width: 100%;
+    border-radius: 0.5rem;
+}
+
+.a6 {
+    display: flex;
+    padding: 0.70rem;
+    flex-direction: row;
+    align-items: center;
+    width: 100%;
+}
+
+.a7 {
+    object-fit: cover;
+    margin-right: 0.75rem;
+    width: 1.75rem;
+    height: 1.75rem;
+}
+
+.a8 {
+    display: flex;
+    padding-top: 0.5rem;
+    align-items: center;
+}
+
+.a9 {
+    display: flex;
+    padding: 0.5rem;
+    margin: 0.5rem;
+    margin-left: 1rem;
+    font-weight: 700;
+    justify-content: flex-start;
+    width: 100%;
+    font-size: 24px;
+}
+
+.a10 {
+    display: flex;
+    margin-bottom: 0.75rem;
+    flex-direction: row;
+    justify-content: space-between;
+    width: 100%;
+}
+
+.a11 {
+    padding: 0.5rem;
+    font-size: 17px;
+}
+
+.a12 {
+    padding-top: 0.25rem;
+    padding-bottom: 0.25rem;
+    padding-left: 0.5rem;
+    padding-right: 0.5rem;
+    margin-left: 0.5rem;
+    margin-right: 0.5rem;
+    background-color: #6D28D9;
+    border-radius: 0.5rem;
+    cursor: pointer;
+}
+
