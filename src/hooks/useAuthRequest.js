@@ -1,7 +1,5 @@
 import {useState} from "react";
 import axios from "axios";
-// Todo: create saveAuthenticationToken
-import saveAuthenticationTokens from "../method/saveAuthenticationTokens";
 import {BASE_URL} from "../config/Url";
 
 
@@ -12,25 +10,10 @@ const apiInstance = axios.create({
 
 apiInstance.interceptors.request.use(
     async (req) => {
-
-
-        const accessTokenExpireAt = localStorage.getItem('accessTokenExpireAt')
-        const accessTokenExpireDate = new Date(+accessTokenExpireAt);
-        const refreshTokenExpiredAt = localStorage.getItem("refreshTokenExpireAt")
-        const refreshTokenExpireDate = new Date(+refreshTokenExpiredAt);
-        if ((accessTokenExpireDate < new Date) && (refreshTokenExpireDate > new Date())) {
-            const oldRefreshToken = localStorage.getItem("refreshToken")
-
-            const response = await axios.get(
-                BASE_URL + "ApiRoutes.REFRESH_ACCESS_TOKEN_URL" + oldRefreshToken
-            );
-            const {accessToken, accessTokenExpireAt, refreshToken, refreshTokenExpireAt} = response.data.data;
-            saveAuthenticationTokens(accessToken, accessTokenExpireAt, refreshToken, refreshTokenExpireAt)
-        }
-        const accessToken = localStorage.getItem('accessToken')
+        const token = localStorage.getItem('token')
 
         req.headers = {
-            Authorization: `Bearer ${accessToken}`
+            Authorization: `Bearer ${token}`
         };
         return req;
     },
@@ -53,7 +36,7 @@ const useAuthRequest = (axiosParams) => {
                 setResponse({data: result.data, loading: false, error: null});
                 return result.data
             } catch (e) {
-                let message = e.response.data.status.message ? e.response.data.status.message : 'خطا در برقراری ارتباط با سرور';
+                let message = e.response.data.status.message ? e.response.data.status.message : "Connection fails :(";
                 let code = e.response.data.status.code ? e.response.data.status.code : 500;
                 setResponse({
                     data: null,
