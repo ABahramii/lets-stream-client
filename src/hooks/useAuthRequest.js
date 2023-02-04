@@ -7,7 +7,6 @@ const apiInstance = axios.create({
     baseURL: BASE_URL
 });
 
-
 apiInstance.interceptors.request.use(
     async (req) => {
         const token = localStorage.getItem('token')
@@ -33,16 +32,19 @@ const useAuthRequest = (axiosParams) => {
             try {
                 setResponse({data: null, loading: true, error: null})
                 const result = await apiInstance.request(newParams ?? axiosParams);
+
                 setResponse({data: result.data, loading: false, error: null});
                 return result.data
             } catch (e) {
                 let message = e.response.data.status.message ? e.response.data.status.message : "Connection fails :(";
                 let code = e.response.data.status.code ? e.response.data.status.code : 500;
+
                 setResponse({
                     data: null,
                     loading: false,
                     error: message
                 });
+
                 return Promise.reject({message, code})
             }
         }
