@@ -1,4 +1,7 @@
+import "./Lobby.css"
 import {useState} from "react";
+import membersIcon from '../../images/members-icon.png'
+
 
 export default function Lobby() {
 
@@ -46,24 +49,25 @@ export default function Lobby() {
             owner: "amir bahrami"
         }
     ]);
-    return (
 
-        <div className='w-full rounded-lg h-full flex  justify-center relative top-20'>
-            <div className='w-4/5  rounded-lg h-full flex text-gray-50 flex-wrap items-end justify-left '>
+    return (
+        <div className='w-full rounded-lg h-full flex  justify-center relative top-20 pb-10'>
+            <div className='w-4/5 rounded-lg h-full flex text-gray-50 flex-wrap items-end justify-left '>
             {
                 rooms?.map((room) =>
-                    <div className=' w-[475px] bg-neutral-700  flex flex-col justify-center items-center p-2 py-4 m-2'>
+                    <div className=' w-[475px] bg-neutral-700  flex flex-col rounded-lg  justify-center items-center px-2 pb-4 m-2 mt-0 mb-4'>
                         <div className={'m-3 w-full'}>
                             <img src={room.img} className={'rounded-lg w-full object-cover'}/>
                         </div>
-                        <div className='p-3 w-full items-start'>
-                            Members count <span className={'m-1'}>{room.memberCount}</span>
+                        <div className='p-3 w-full flex flex-row items-center'>
+                            <img src={membersIcon} className={'w-7 h-7 object-cover mr-3'}/>
+                            <div className={'flex items-center pt-2'}>Members count  {room.memberCount}</div>
                         </div>
-                        <div className={'font-bold text-[20px] w-full p-2 flex justify-start m-2'}>
+                        <div className={'font-bold text-[24px] w-full p-2 flex justify-start m-2'}>
                             {room.name}
                         </div>
                         <div className={'flex flex-row justify-between w-full mb-3'}>
-                            <div className={'p-2'}>{room.owner}</div>
+                            <div className={'p-2 text-[17px]'}>{room.owner}</div>
                             <div className={'bg-purple-700 rounded-lg mx-2 px-2 py-1 cursor-pointer'}>Join stream
                             </div>
                         </div>
