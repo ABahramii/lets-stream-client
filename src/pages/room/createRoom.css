@@ -71,13 +71,13 @@
     width: 20px;
 }
 
-.checkbox_wrapper {
+.wrapper {
     width: 100%;
     box-sizing: border-box;
     margin-bottom: 15px;
 }
 
-.checkbox_wrapper input {
+.wrapper input {
     margin-left: 15px;
 }
 
@@ -91,15 +91,17 @@
 .file-input label {
     margin-top: 25px;
     position: relative;
-    width: 150px;
-    height: 50px;
+    width: 145px;
+    height: 45px;
     border-radius: 25px;
-    background: linear-gradient(40deg, #ff6ec4, #845695);
+    /*background: linear-gradient(40deg, #ff6ec4, #845695);*/
+    background: #845695;
     box-shadow: 0 4px 7px rgba(0, 0, 0, 0.4);
     display: flex;
     align-items: center;
     justify-content: center;
     color: #fff;
+    font-size: 0.85rem;
     font-weight: bold;
     cursor: pointer;
     transition: transform .2s ease-out;
