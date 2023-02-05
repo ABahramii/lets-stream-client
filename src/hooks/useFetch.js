@@ -21,7 +21,7 @@ const useFetch = (axiosParams) => {
             setResponse({data: result.data, loading: false, error: null});
             return result.data
         } catch (e) {
-            let message = e.response.data.status.message ? e.response.data.status.message : 'Connection fails :(';
+            let message = e.response.data.status.message ? e.response.data.status.message : "An Error Occurred.";
             setResponse({data: null, loading: false, error: message});
             return Promise.reject(message)
         }
