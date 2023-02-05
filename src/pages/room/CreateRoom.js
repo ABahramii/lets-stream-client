@@ -22,6 +22,7 @@ export default function CreateRoom() {
         formData.append('image', roomImage);
         formData.append('active', true)
         formData.append('privateRoom', isPrivate);
+        formData.append('privateCode', privateCode);
 
 
         createRequest({
@@ -29,18 +30,28 @@ export default function CreateRoom() {
             method: 'POST',
             data: formData
         }).then(res => {
-            console.log("we have an error")
-            console.log(res)
-            // navigate('/dashboard')
+            if (res.code === 200) {
+                // Todo: alert room created successfully
+                navigate("/");
+            }
         }).catch(exp => {
             console.log(JSON.stringify(exp))
             // Todo: use toast
         })
 
     }
+
     const addImage = (file) => {
         setRoomImage(file);
         setImageName(file.name);
+    }
+
+    const handleCheckbox = () => {
+        let newState = !isPrivate;
+        if (!newState) {
+            setPrivateCode("");
+        }
+        setIsPrivate(!isPrivate);
     }
 
     return (
@@ -67,7 +78,7 @@ export default function CreateRoom() {
 
                         <div className="wrapper">
                             <div className="file-input">
-                                {/*Todo: check file type*/}
+                                {/*Todo: check file type and size*/}
                                 <input
                                     type="file"
                                     id="file"
@@ -88,7 +99,7 @@ export default function CreateRoom() {
                             <input
                                 type="checkbox"
                                 checked={isPrivate}
-                                onChange={() => setIsPrivate(!isPrivate)}
+                                onChange={handleCheckbox}
                             />
                         </div>
 
