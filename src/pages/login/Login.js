@@ -34,7 +34,7 @@ export default function Login() {
 
     return (
         <>
-            <main id="room__lobby__container">
+            <div id="room__lobby__container">
                 <div id="form__container">
                     <div id="form__container__header">
                         <p>Login</p>
@@ -54,7 +54,6 @@ export default function Login() {
                             </label>
                         </div>
 
-                        {/*Todo: check password weakness*/}
                         <div className="form__field__wrapper">
                             <label>Password</label>
                             <label>
@@ -76,7 +75,7 @@ export default function Login() {
                         </div>
                     </form>
                 </div>
-            </main>
+            </div>
         </>
     );
 }
