@@ -47,7 +47,7 @@ export default function CreateUser() {
             <div id="room__lobby__container">
                 <div id="form__container">
                     <div id="form__container__header">
-                        <p>Create User</p>
+                        <p>Signup</p>
                     </div>
 
                     <form id="lobby__form" onSubmit={handleLogin}>
