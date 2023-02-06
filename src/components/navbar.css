@@ -104,3 +104,13 @@
 .create__room__btn:hover {
     background-color: #845695;
 }
+
+.popup_menu_item{
+    display: flex;
+    gap:5px;
+}
+/* style override with classes */
+/* checkout component classes from chrome inspect */
+.popup_menu_item > .MuiSvgIcon-root{
+    color:red;
+}

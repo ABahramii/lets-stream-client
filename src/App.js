@@ -9,25 +9,43 @@ import checkLogin from "./service/checkLogin";
 import CreateUser from "./pages/user/CreateUser";
 import EditRoom from "./pages/room/EditRoom";
 import Lobby from "./pages/lobby/Lobby";
+import { createTheme, ThemeProvider } from "@mui/material";
 
 function App() {
     const isLogin = checkLogin();
 
+    const muiTheme = createTheme({
+        palette:{
+            primary:{
+                // the main color of the site
+                main:"#845695", 
+                // change these until its good looking if needed
+                light:"#b274c9",
+                dark:"#5e3d69",
+            },
+            // apply dark mode for mui components
+            mode: 'dark',
+        }
+    })
+
     return (
         <div className="App">
-            <BrowserRouter>
-                <Navbar />
-                <Routes>
-                    <Route path="/" element={<Lobby />} />
-                    <Route path="/lobby" element={<LobbyBkp />} />
-                    <Route path="/join" element={<Join />} />
-                    <Route path="/login" element={<Login />} />
-                    <Route path="/signup" element={<CreateUser />} />
-                    <Route path="/room/:UUID" element={<Room />}/>
-                    <Route path="/room/create" element={isLogin ? <CreateRoom /> : <Lobby />}/>
-                    <Route path="/room/edit/:UUID" element={isLogin ? <EditRoom /> : <Lobby />}/>
-                </Routes>
-            </BrowserRouter>
+            {/* main theme provider for mui */}
+            <ThemeProvider theme={muiTheme}>
+                <BrowserRouter>
+                    <Navbar />
+                    <Routes>
+                        <Route path="/" element={<Lobby />} />
+                        <Route path="/lobby" element={<LobbyBkp />} />
+                        <Route path="/join" element={<Join />} />
+                        <Route path="/login" element={<Login />} />
+                        <Route path="/signup" element={<CreateUser />} />
+                        <Route path="/room/:UUID" element={<Room />}/>
+                        <Route path="/room/create" element={isLogin ? <CreateRoom /> : <Lobby />}/>
+                        <Route path="/room/edit/:UUID" element={isLogin ? <EditRoom /> : <Lobby />}/>
+                    </Routes>
+                </BrowserRouter>
+            </ThemeProvider>
         </div>
     );
 }
