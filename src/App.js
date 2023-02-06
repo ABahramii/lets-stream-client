@@ -8,6 +8,7 @@ import CreateRoom from "./pages/room/CreateRoom";
 import checkLogin from "./service/checkLogin";
 import CreateUser from "./pages/user/CreateUser";
 import EditRoom from "./pages/room/EditRoom";
+import Lobby from "./pages/lobby/Lobby";
 
 function App() {
     const isLogin = checkLogin();
@@ -17,14 +18,14 @@ function App() {
             <BrowserRouter>
                 <Navbar />
                 <Routes>
-                    <Route path="/" element={<LobbyBkp />} />
+                    <Route path="/" element={<Lobby />} />
                     <Route path="/lobby" element={<LobbyBkp />} />
                     <Route path="/join" element={<Join />} />
                     <Route path="/login" element={<Login />} />
                     <Route path="/signup" element={<CreateUser />} />
                     <Route path="/room/:UUID" element={<Room />}/>
-                    <Route path="/room/create" element={isLogin ? <CreateRoom /> : <LobbyBkp />}/>
-                    <Route path="/room/edit/:UUID" element={isLogin ? <EditRoom /> : <LobbyBkp />}/>
+                    <Route path="/room/create" element={isLogin ? <CreateRoom /> : <Lobby />}/>
+                    <Route path="/room/edit/:UUID" element={isLogin ? <EditRoom /> : <Lobby />}/>
                 </Routes>
             </BrowserRouter>
         </div>
