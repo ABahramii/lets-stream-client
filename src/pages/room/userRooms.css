@@ -1,0 +1,54 @@
+.buttons {
+    display: flex;
+    margin-bottom: 0.75rem;
+    flex-direction: row;
+    justify-content: right;
+    width: 100%;
+}
+
+.button {
+    padding: 0.45rem 0.5rem 0.40rem;
+    margin-left: 0.5rem;
+    margin-right: 0.5rem;
+    color: #fff;
+    border-radius: 0.5rem;
+    cursor: pointer;
+}
+
+.remove_button {
+    background-color: #FF5050;
+}
+
+.edit_button {
+    padding-left: 1rem;
+    padding-right: 1rem;
+    background-color: #505fff;
+}
+
+.join_button {
+    padding-left: 1rem;
+    padding-right: 1rem;
+    background-color: #01b227;
+}
+
+.green_icon {
+    margin-top: 12px;
+    margin-right: 5px;
+    display: block;
+    height: 8px;
+    width: 8px;
+    border-radius: 50%;
+    background-color: #2aca3e;
+}
+
+.red_icon {
+    margin-top: 12px;
+    margin-right: 5px;
+    display: block;
+    height: 8px;
+    width: 8px;
+    border-radius: 50%;
+    background-color: #f33636;
+}
+
+
