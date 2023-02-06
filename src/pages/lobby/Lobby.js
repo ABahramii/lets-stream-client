@@ -1,4 +1,4 @@
-import "./Lobby.css"
+import "./lobby.css"
 import {useEffect, useState} from "react";
 import membersIcon from '../../images/members-icon.png'
 import checkLogin from "../../service/checkLogin";

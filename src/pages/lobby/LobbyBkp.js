@@ -1,4 +1,4 @@
-import "./Lobby.css"
+import "./lobby.css"
 import {useState} from "react";
 import membersIcon from '../../images/members-icon.png'
 
