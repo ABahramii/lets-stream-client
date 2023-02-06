@@ -17,17 +17,17 @@ export default function CreateRoom() {
         event.preventDefault();
 
         const formData = new FormData();
-        formData.append('name', roomName);
-
-        formData.append('image', roomImage);
-        formData.append('active', true)
-        formData.append('privateRoom', isPrivate);
-        formData.append('privateCode', privateCode);
+        formData.append("name", roomName);
+        formData.append("image", roomImage);
+        formData.append("imageName", imageName);
+        formData.append("active", true)
+        formData.append("privateRoom", isPrivate);
+        formData.append("privateCode", privateCode);
 
 
         createRequest({
             url: "/room/create",
-            method: 'POST',
+            method: "POST",
             data: formData
         }).then(res => {
             if (res.code === 200) {
