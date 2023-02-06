@@ -24,6 +24,7 @@ function App() {
                     <Route path="/signup" element={<CreateUser />} />
                     <Route path="/room/:UUID" element={<Room />}/>
                     <Route path="/room/create" element={isLogin ? <CreateRoom /> : <LobbyBkp />}/>
+                    <Route path="/room/edit/:UUID" element={isLogin ? <EditRoom /> : <LobbyBkp />}/>
                 </Routes>
             </BrowserRouter>
         </div>
