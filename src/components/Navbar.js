@@ -23,6 +23,20 @@ export default function Navbar() {
             </div>
 
             <div className="nav__links">
+                {/*<button
+                    type="button"
+                    aria-haspopup="true"
+                    aria-expanded="true"
+                    aria-controls="dropdown1"
+                >
+                    Services<span className="arrow"></span>
+                </button>
+                <ul className="dropdown" id="dropdown1">
+                    <li><a href="#">Web design</a></li>
+                    <li><a href="#">Web dev</a></li>
+                    <li><a href="#">Web</a></li>
+                </ul>*/}
+
                 <Link to="/join" className="nav__link">
                     Join
                     <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" fill="#ede0e0" viewBox="0 0 24 24">
