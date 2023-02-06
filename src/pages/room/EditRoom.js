@@ -12,6 +12,7 @@ export default function EditRoom() {
     const [imageName, setImageName] = useState("");
     const [isPrivate, setIsPrivate] = useState(false);
     const [privateCode, setPrivateCode] = useState("");
+    const [imgRequired, setImgRequired] = useState(false);
 
     const navigate = useNavigate();
 
@@ -38,13 +39,15 @@ export default function EditRoom() {
         setPrivateCode(data.privateCode ? data.privateCode : "");
     }
 
-    const handleCreate = (event) => {
+    const handleEdit = (event) => {
         event.preventDefault();
 
         const formData = new FormData();
         formData.append("name", roomName);
-        formData.append("image", roomImage);
-        formData.append("imageName", imageName);
+        if (roomImage) {
+            formData.append("image", roomImage);
+            formData.append("imageName", imageName);
+        }
         formData.append("active", true)
         formData.append("privateRoom", isPrivate);
         formData.append("privateCode", privateCode);
@@ -55,10 +58,10 @@ export default function EditRoom() {
             data: formData
         }).then(res => {
             console.log(res);
-            /*if (res.code === 200) {
+            if (res.code === 200) {
                 // Todo: alert room created successfully
                 navigate("/");
-            }*/
+            }
         }).catch(exp => {
             console.log(JSON.stringify(exp))
             // Todo: use toast
@@ -67,6 +70,7 @@ export default function EditRoom() {
     }
 
     const addImage = (file) => {
+        setImgRequired(true);
         setRoomImage(file);
         setImageName(file.name);
     }
@@ -81,13 +85,13 @@ export default function EditRoom() {
 
     return (
         <>
-            <main id="room__lobby__container">
+            <div id="room__lobby__container">
                 <div id="form__container">
                     <div id="form__container__header">
                         <p>Edit Room</p>
                     </div>
 
-                    <form id="lobby__form" onSubmit={handleCreate}>
+                    <form id="lobby__form" onSubmit={handleEdit}>
                         <div className="form__field__wrapper">
                             <label>Room name</label>
                             <label>
@@ -108,7 +112,7 @@ export default function EditRoom() {
                                     type="file"
                                     id="file"
                                     className="file"
-                                    required
+                                    required={imgRequired}
                                     aria-label="File browser example"
                                     onChange={(e) => addImage(e.target.files[0])}
                                 />
@@ -147,7 +151,7 @@ export default function EditRoom() {
                         </div>
                     </form>
                 </div>
-            </main>
+            </div>
         </>
     );
 }
