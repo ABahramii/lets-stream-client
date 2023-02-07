@@ -110,6 +110,7 @@ export default function CreateRoom() {
                                     <input type="text"
                                            name="name"
                                            onChange={e => setPrivateCode(e.target.value)}
+                                           required={isPrivate}
                                            value={privateCode}
                                            placeholder="Enter room private code..."
                                     />

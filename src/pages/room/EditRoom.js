@@ -59,9 +59,8 @@ export default function EditRoom() {
             method: "PUT",
             data: formData
         }).then(res => {
-            console.log(res);
             if (res.code === 200) {
-                // Todo: alert room created successfully
+                // Todo: alert room edited successfully
                 navigate("/user/rooms");
             }
         }).catch(exp => {
@@ -158,6 +157,7 @@ export default function EditRoom() {
                                     <input type="text"
                                            name="name"
                                            onChange={e => setPrivateCode(e.target.value)}
+                                           required={isPrivate}
                                            value={privateCode}
                                            placeholder="Enter room private code..."
                                     />
