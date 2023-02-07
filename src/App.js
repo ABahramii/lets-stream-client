@@ -11,6 +11,7 @@ import EditRoom from "./pages/room/EditRoom";
 import Lobby from "./pages/lobby/Lobby";
 import { createTheme, ThemeProvider } from "@mui/material";
 import UserRooms from "./pages/room/UserRooms";
+import JoinPrivate from "./pages/join/JoinPrivate";
 
 function App() {
     const isLogin = checkLogin();
@@ -39,6 +40,7 @@ function App() {
                         <Route path="/" element={<Lobby />} />
                         <Route path="/lobby" element={<LobbyBkp />} />
                         <Route path="/join" element={<Join />} />
+                        <Route path="/private/join" element={isLogin ? <JoinPrivate /> : <Lobby />} />
                         <Route path="/login" element={!isLogin ? <Login /> : <Lobby />} />
                         <Route path="/signup" element={<CreateUser />} />
                         <Route path="/room/:UUID" element={<Room />}/>

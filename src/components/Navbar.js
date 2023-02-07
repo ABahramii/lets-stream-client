@@ -77,19 +77,23 @@ export default function Navbar() {
                 }
 
                 <Menu
-                    // connecting the menu to user-icon btn
                     anchorEl={document.getElementById("user-icon")}
                     open={menuOpen}
                     onClose={()=>{setMenuOpen(false)}}
                 >
+                    <MenuItem >
+                        <div className="nav__link" onClick={event => gotoPage(event, "/signup")}>
+                            Edit Profile
+                        </div>
+                    </MenuItem>
                     <MenuItem >
                         <div className="nav__link" onClick={event => gotoPage(event, "/user/rooms")}>
                             Your Rooms
                         </div>
                     </MenuItem>
                     <MenuItem >
-                        <div className="nav__link" onClick={event => gotoPage(event, "/signup")}>
-                            Edit Profile
+                        <div className="nav__link" onClick={event => gotoPage(event, "/private/join")}>
+                            Join Private Room
                         </div>
                     </MenuItem>
                     <MenuItem >
