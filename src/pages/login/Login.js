@@ -3,6 +3,9 @@ import {useState} from "react";
 import {useNavigate} from "react-router-dom";
 import useFetch from "../../hooks/useFetch";
 import authData from "../../data/authData";
+import Swal from 'sweetalert2'
+
+import withReactContent from 'sweetalert2-react-content'
 
 export default function Login() {
     const [username, setUsername] = useState("");
@@ -10,7 +13,7 @@ export default function Login() {
 
     const navigate = useNavigate();
     const [loginReq] = useFetch();
-
+    const MySwal = withReactContent(Swal);
     const handleLogin = (event) => {
         event.preventDefault();
         loginReq({
@@ -28,7 +31,20 @@ export default function Login() {
         }).catch(exp => {
             console.log(JSON.stringify(exp))
             // Todo: use toast
-            alert("incorrect username or password.")
+            MySwal.fire({
+                icon: 'error',
+                title: 'Oops...',
+                text: 'Username or Password is incorrect!',
+                showCloseButton: true,
+                showCancelButton: true,
+                focusConfirm: false,
+                confirmButtonText:
+                    '<i class="fa fa-thumbs-up"></i> Great!',
+                confirmButtonAriaLabel: 'Thumbs up, great!',
+                cancelButtonText:
+                    'No',
+                cancelButtonAriaLabel: 'Thumbs down'
+            })
         })
     }
 
