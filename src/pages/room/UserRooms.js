@@ -6,6 +6,7 @@ import {useEffect, useState} from "react";
 import membersIcon from "../../images/members-icon.png";
 import {BASE_URL} from "../../config/Url";
 import useAuthRequest from "../../hooks/useAuthRequest";
+import checkLogin from "../../service/checkLogin";
 
 export default function UserRooms() {
     const navigate = useNavigate();
@@ -17,6 +18,10 @@ export default function UserRooms() {
     }
 
     useEffect(() => {
+        fetchRooms();
+    }, []);
+
+    const fetchRooms = () => {
         authRequest({
             url: "/room/user/rooms",
             method: "GET",
@@ -28,11 +33,37 @@ export default function UserRooms() {
         }).catch(exp => {
             console.log("exception: ", JSON.stringify(exp));
         })
-    }, []);
+    }
 
     const handleJoin = (event, uuid) => {
-
+        event.preventDefault();
+        let isLogin = checkLogin();
+        if (isLogin) {
+            navigate(`/room/${uuid}`);
+        } else {
+            navigate("/login");
+        }
     }
+
+    const handleEdit = (event, uuid) => {
+        event.preventDefault();
+        navigate(`/room/edit/${uuid}`);
+    }
+
+    const handleRemove = (event, uuid) => {
+        event.preventDefault();
+        authRequest({
+            url: `/room/delete/${uuid}`,
+            method: "DELETE",
+        }).then(res => {
+            if (res.code === 200) {
+                window.location.reload();
+            }
+        }).catch(exp => {
+            console.log("exception: ", JSON.stringify(exp));
+        })
+    }
+
 
     return (
         <div className="a1">
@@ -53,8 +84,8 @@ export default function UserRooms() {
                             </div>
                             <div className="buttons">
                                 <div className="button join_button" onClick={(event) => handleJoin(event, room.uuid)}>Join</div>
-                                <div className="button edit_button" onClick={(event) => handleJoin(event, room.uuid)}>Edit</div>
-                                <div className="button remove_button" onClick={(event) => handleJoin(event, room.uuid)}>Remove</div>
+                                <div className="button edit_button" onClick={(event) => handleEdit(event, room.uuid)}>Edit</div>
+                                <div className="button remove_button" onClick={(event) => handleRemove(event, room.uuid)}>Remove</div>
                             </div>
                         </div>
                     )
