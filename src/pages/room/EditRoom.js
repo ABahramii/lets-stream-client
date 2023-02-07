@@ -1,6 +1,6 @@
 import "./createRoom.css"
 import {useEffect, useState} from "react";
-import {useNavigate, useParams} from "react-router-dom";
+import {Link, useNavigate, useParams} from "react-router-dom";
 import useAuthRequest from "../../hooks/useAuthRequest";
 
 export default function EditRoom() {
@@ -10,6 +10,7 @@ export default function EditRoom() {
     const [roomName, setRoomName] = useState("");
     const [roomImage, setRoomImage] = useState(null);
     const [imageName, setImageName] = useState("");
+    const [isActive, setIsActive] = useState(true);
     const [isPrivate, setIsPrivate] = useState(false);
     const [privateCode, setPrivateCode] = useState("");
     const [imgRequired, setImgRequired] = useState(false);
@@ -35,6 +36,7 @@ export default function EditRoom() {
     const makePageData = (data) => {
         setRoomName(data.name);
         setImageName(data.imageName);
+        setIsActive(data.active);
         setIsPrivate(data.privateRoom);
         setPrivateCode(data.privateCode ? data.privateCode : "");
     }
@@ -48,7 +50,7 @@ export default function EditRoom() {
             formData.append("image", roomImage);
             formData.append("imageName", imageName);
         }
-        formData.append("active", true)
+        formData.append("active", isActive)
         formData.append("privateRoom", isPrivate);
         formData.append("privateCode", privateCode);
 
@@ -60,7 +62,7 @@ export default function EditRoom() {
             console.log(res);
             if (res.code === 200) {
                 // Todo: alert room created successfully
-                navigate("/");
+                navigate("/user/rooms");
             }
         }).catch(exp => {
             console.log(JSON.stringify(exp))
@@ -87,8 +89,15 @@ export default function EditRoom() {
         <>
             <div id="room__lobby__container">
                 <div id="form__container">
-                    <div id="form__container__header">
+                    <div className="edit_header">
+                        <Link to="/user/rooms">
+                            <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24">
+                                <path
+                                    d="M13.025 1l-2.847 2.828 6.176 6.176h-16.354v3.992h16.354l-6.176 6.176 2.847 2.828 10.975-11z"/>
+                            </svg>
+                        </Link>
                         <p>Edit Room</p>
+                        <div></div>
                     </div>
 
                     <form id="lobby__form" onSubmit={handleEdit}>
@@ -121,6 +130,16 @@ export default function EditRoom() {
                                 </label>
                                 <p className="file-name">{imageName}</p>
                             </div>
+                        </div>
+
+                        <div className="active_wrapper">
+                            <label>Active</label>
+                            <input
+                                className="active_checkbox"
+                                type="checkbox"
+                                checked={isActive}
+                                onChange={() => setIsActive(!isActive)}
+                            />
                         </div>
 
                         <div className="wrapper">

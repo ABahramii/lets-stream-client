@@ -81,6 +81,16 @@
     margin-left: 15px;
 }
 
+.active_wrapper {
+    width: 100%;
+    box-sizing: border-box;
+    margin-bottom: 15px;
+}
+
+.active_wrapper input {
+    margin-left: 20px;
+}
+
 .file {
     opacity: 0;
     width: 0.1px;
@@ -114,4 +124,21 @@
     font-size: 0.85rem;
     color: #2aca3e;
     overflow-x: auto;
+}
+
+.edit_header {
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+    border-radius: 10px 10px 0 0;
+    padding: 10px;
+    background-color: #363739;
+    margin: 0;
+    font-size: 18px;
+    line-height: 0;
+}
+
+.edit_header svg {
+    margin-top: 7px;
+    transform: rotateY(180deg);
 }
