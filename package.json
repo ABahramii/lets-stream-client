@@ -8,6 +8,7 @@
     "@mui/icons-material": "^5.10.9",
     "@mui/material": "^5.10.13",
     "@stomp/stompjs": "^6.1.2",
+    "@sweetalert2/theme-dark": "^5.0.15",
     "@testing-library/jest-dom": "^5.16.5",
     "@testing-library/react": "^13.4.0",
     "@testing-library/user-event": "^13.5.0",
@@ -22,6 +23,8 @@
     "react-scripts": "5.0.1",
     "sockjs-client": "^1.6.1",
     "stompjs": "^2.3.3",
+    "sweetalert2": "^11.7.1",
+    "sweetalert2-react-content": "^5.0.7",
     "usestomp-hook": "^1.2.1",
     "web-vitals": "^2.1.4"
   },
