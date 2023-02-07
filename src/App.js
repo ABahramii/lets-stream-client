@@ -39,7 +39,7 @@ function App() {
                         <Route path="/" element={<Lobby />} />
                         <Route path="/lobby" element={<LobbyBkp />} />
                         <Route path="/join" element={<Join />} />
-                        <Route path="/login" element={<Login />} />
+                        <Route path="/login" element={!isLogin ? <Login /> : <Lobby />} />
                         <Route path="/signup" element={<CreateUser />} />
                         <Route path="/room/:UUID" element={<Room />}/>
                         <Route path="/room/create" element={isLogin ? <CreateRoom /> : <Lobby />}/>

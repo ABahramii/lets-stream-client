@@ -1,6 +1,6 @@
 import "./navbar.css"
 import logoImage from "../images/dark-logo.png"
-import {Link} from "react-router-dom";
+import {Link, useNavigate} from "react-router-dom";
 import checkLogin from "../service/checkLogin";
 import {useEffect, useState} from "react";
 import { Divider, IconButton, Menu, MenuItem, Popover } from "@mui/material";
@@ -11,11 +11,17 @@ import SecurityOutlinedIcon from '@mui/icons-material/SecurityOutlined';
 export default function Navbar() {
     const [isLogin, setIsLogin] = useState(false);
     const [menuOpen, setMenuOpen] = useState(false);
-
+    const navigate = useNavigate();
 
     useEffect(() => {
         setIsLogin(checkLogin());
     }, [isLogin])
+
+    const gotoPage = (event, url) => {
+        event.preventDefault();
+        setMenuOpen(false);
+        navigate(url);
+    }
 
     return (
         <nav className="navbar">
@@ -53,15 +59,17 @@ export default function Navbar() {
                 }
 
                 {/* MUI icon button for popup menu */}
-                <IconButton
-                    id="user-icon"
-                    sx={{
-                        color:"white"
-                    }}
-                    onClick={()=>{setMenuOpen(true)}}
-                >
-                    <AccountCircleOutlinedIcon/>
-                </IconButton>
+                {isLogin &&
+                    <IconButton
+                        id="user-icon"
+                        sx={{
+                            color:"white"
+                        }}
+                        onClick={()=>{setMenuOpen(true)}}
+                    >
+                        <AccountCircleOutlinedIcon/>
+                    </IconButton>
+                }
 
                 <Menu
                     // connecting the menu to user-icon btn
@@ -70,19 +78,14 @@ export default function Navbar() {
                     onClose={()=>{setMenuOpen(false)}}
                 >
                     <MenuItem >
-                        <Link to="/signup" className="nav__link">
-                            Profile
-                        </Link>
+                        <div className="nav__link" onClick={event => gotoPage(event, "/user/rooms")}>
+                            Your Rooms
+                        </div>
                     </MenuItem>
                     <MenuItem >
-                        <Link to="/signup" className="nav__link">
-                            Profile
-                        </Link>
-                    </MenuItem>
-                    <MenuItem >
-                        <Link to="/signup" className="nav__link">
-                            Profile
-                        </Link>
+                        <div className="nav__link" onClick={event => gotoPage(event, "/signup")}>
+                            Edit Profile
+                        </div>
                     </MenuItem>
                     <Divider/>
                     <MenuItem
