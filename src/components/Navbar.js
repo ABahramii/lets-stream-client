@@ -3,10 +3,9 @@ import logoImage from "../images/dark-logo.png"
 import {Link, useNavigate} from "react-router-dom";
 import checkLogin from "../service/checkLogin";
 import {useEffect, useState} from "react";
-import { Divider, IconButton, Menu, MenuItem, Popover } from "@mui/material";
+import {IconButton, Menu, MenuItem} from "@mui/material";
 import AccountCircleOutlinedIcon from '@mui/icons-material/AccountCircleOutlined';
-import CastConnectedOutlinedIcon from '@mui/icons-material/CastConnectedOutlined';
-import SecurityOutlinedIcon from '@mui/icons-material/SecurityOutlined';
+import authData from "../data/authData";
 
 export default function Navbar() {
     const [isLogin, setIsLogin] = useState(false);
@@ -21,6 +20,12 @@ export default function Navbar() {
         event.preventDefault();
         setMenuOpen(false);
         navigate(url);
+    }
+
+    const handleLogout = (event) => {
+        event.preventDefault();
+        authData.removeAuthData();
+        window.location.reload();
     }
 
     return (
@@ -87,9 +92,14 @@ export default function Navbar() {
                             Edit Profile
                         </div>
                     </MenuItem>
-                    <Divider/>
+                    <MenuItem >
+                        <div className="nav__link" onClick={event => handleLogout(event)}>
+                            Logout
+                        </div>
+                    </MenuItem>
+
+                    {/*<Divider/>
                     <MenuItem
-                        // styling with MUI sx property
                         sx={{
                             display:"flex",
                             gap:"5px"
@@ -101,14 +111,12 @@ export default function Navbar() {
                         </Link>
                     </MenuItem>
 
-                    {/* styling with css classNames */}
                     <MenuItem className="popup_menu_item">
                         <CastConnectedOutlinedIcon/>
                         <Link to="/signup" className="nav__link">
                             Profile
                         </Link>
-                    </MenuItem>
-
+                    </MenuItem>*/}
                 </Menu>
             </div>
         </nav>
