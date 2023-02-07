@@ -3,9 +3,15 @@ import logoImage from "../images/dark-logo.png"
 import {Link} from "react-router-dom";
 import checkLogin from "../service/checkLogin";
 import {useEffect, useState} from "react";
+import { Divider, IconButton, Menu, MenuItem, Popover } from "@mui/material";
+import AccountCircleOutlinedIcon from '@mui/icons-material/AccountCircleOutlined';
+import CastConnectedOutlinedIcon from '@mui/icons-material/CastConnectedOutlined';
+import SecurityOutlinedIcon from '@mui/icons-material/SecurityOutlined';
 
 export default function Navbar() {
     const [isLogin, setIsLogin] = useState(false);
+    const [menuOpen, setMenuOpen] = useState(false);
+
 
     useEffect(() => {
         setIsLogin(checkLogin());
@@ -23,20 +29,6 @@ export default function Navbar() {
             </div>
 
             <div className="nav__links">
-                {/*<button
-                    type="button"
-                    aria-haspopup="true"
-                    aria-expanded="true"
-                    aria-controls="dropdown1"
-                >
-                    Services<span className="arrow"></span>
-                </button>
-                <ul className="dropdown" id="dropdown1">
-                    <li><a href="#">Web design</a></li>
-                    <li><a href="#">Web dev</a></li>
-                    <li><a href="#">Web</a></li>
-                </ul>*/}
-
                 <Link to="/join" className="nav__link">
                     Join
                     <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" fill="#ede0e0" viewBox="0 0 24 24">
@@ -59,6 +51,62 @@ export default function Navbar() {
                         </svg>
                     </Link>
                 }
+
+                {/* MUI icon button for popup menu */}
+                <IconButton
+                    id="user-icon"
+                    sx={{
+                        color:"white"
+                    }}
+                    onClick={()=>{setMenuOpen(true)}}
+                >
+                    <AccountCircleOutlinedIcon/>
+                </IconButton>
+
+                <Menu
+                    // connecting the menu to user-icon btn
+                    anchorEl={document.getElementById("user-icon")}
+                    open={menuOpen}
+                    onClose={()=>{setMenuOpen(false)}}
+                >
+                    <MenuItem >
+                        <Link to="/signup" className="nav__link">
+                            Profile
+                        </Link>
+                    </MenuItem>
+                    <MenuItem >
+                        <Link to="/signup" className="nav__link">
+                            Profile
+                        </Link>
+                    </MenuItem>
+                    <MenuItem >
+                        <Link to="/signup" className="nav__link">
+                            Profile
+                        </Link>
+                    </MenuItem>
+                    <Divider/>
+                    <MenuItem
+                        // styling with MUI sx property
+                        sx={{
+                            display:"flex",
+                            gap:"5px"
+                        }}
+                    >
+                        <SecurityOutlinedIcon/>
+                        <Link to="/signup" className="nav__link">
+                            Profile
+                        </Link>
+                    </MenuItem>
+
+                    {/* styling with css classNames */}
+                    <MenuItem className="popup_menu_item">
+                        <CastConnectedOutlinedIcon/>
+                        <Link to="/signup" className="nav__link">
+                            Profile
+                        </Link>
+                    </MenuItem>
+
+                </Menu>
             </div>
         </nav>
     );
