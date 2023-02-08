@@ -3,18 +3,43 @@ import {useNavigate} from "react-router-dom";
 import {useEffect, useState} from "react";
 import checkLogin from "../../service/checkLogin";
 import useAuthRequest from "../../hooks/useAuthRequest";
+import useFetch from "../../hooks/useFetch";
+import authData from "../../data/authData";
 
 export default function JoinPrivate() {
     const [roomPrivateCode, setRoomPrivateCode] = useState("");
 
     const navigate = useNavigate();
     const [request] = useAuthRequest();
+    const [checkJoinRequest] = useFetch();
 
-    useEffect(() => {
-        if (!checkLogin()) {
+    const joinRoom = (roomUUID) => {
+        const username = localStorage.getItem("username");
+
+        if (username) {
+            const member = {
+                name: localStorage.getItem("username"),
+                user: true
+            }
+            checkJoinRequest({
+                url: `room/${roomUUID}/checkJoin`,
+                method: "POST",
+                data: member
+            }).then(res => {
+                if (res.data.canJoin) {
+                    navigate(`/room/${roomUUID}`);
+                } else {
+                    // Todo: duplicate error with toast
+                    alert("You Already Exists At Room");
+                }
+            }).catch(exp => {
+                console.log(JSON.stringify(exp));
+            })
+        } else {
+            authData.removeAuthData();
             navigate("/login");
         }
-    }, [])
+    }
 
 
     const handleJoin = (event) => {
@@ -24,11 +49,10 @@ export default function JoinPrivate() {
             method: "GET",
         }).then(res => {
             if (res.data) {
-
+                joinRoom(res.data);
             }
         }).catch(exp => {
             alert("Room Not Found");
-            console.log("room not found");
         })
     }
 
