@@ -1,6 +1,5 @@
 import "./room.css";
 import {useEffect, useState} from "react";
-import testImg from "../../images/dark-logo.png";
 import {useStomp} from "usestomp-hook/lib";
 import useFetch from "../../hooks/useFetch";
 import {useNavigate, useParams} from "react-router-dom";
@@ -20,7 +19,7 @@ export default function Room() {
     const navigate = useNavigate();
     const [isPub, setIsPub] = useState(false);
 
-    const {subscribe, send} = useStomp(
+    const {subscribe, send, disconnect} = useStomp(
         {
             brokerURL: "ws://localhost:8080/ws"
         },
@@ -44,7 +43,21 @@ export default function Room() {
         }).catch(exp => {
             navigate("/join");
         })
+
+        return () => {
+            leaveAction();
+        }
     }, []);
+
+    const leaveAction = () => {
+        let isLogin = checkLogin();
+        let member = {
+            name: isLogin ? localStorage.getItem("username") : localStorage.getItem("guestName"),
+            user: isLogin
+        }
+        send(`/app/member/leave/${UUID}`, member, {});
+        disconnect();
+    }
 
     const roomOwner = () => {
         const token = localStorage.getItem("token");
@@ -88,6 +101,9 @@ export default function Room() {
         subscribe(`/room/members/${UUID}`, (data) => {
             onMemberJoin(data);
         });
+        subscribe(`/room/members/leave/${UUID}`, (data) => {
+            onMemberLeave(data);
+        });
         subscribe(`/room/chats/${UUID}`, (data) => {
             onChatReceived(data);
         });
@@ -111,6 +127,25 @@ export default function Room() {
     const onMemberJoin = (data) => {
         if (data.name !== undefined) {
             setMembers(prevState => [...prevState, data]);
+        }
+    }
+
+    const onMemberLeave = (data) => {
+        if (data.name !== undefined) {
+            console.log("data name: *" + data.name + "*");
+            let index = -1;
+            console.log(members.length);
+            for (let i = 0; i < members.length; i++) {
+                console.log(i + ": *" + members[i].name + "*");
+                if (members[i].name === data.name) {
+                    index = i;
+                }
+            }
+            // let index = members.findIndex((member) => member.name === data.name));
+            console.log("member find at index: ", index)
+            if (index !== -1) {
+                setMembers(prevState => prevState.splice(index, 1));
+            }
         }
     }
 
@@ -146,70 +181,69 @@ export default function Room() {
             send(`/app/chat/${UUID}`, chat, {});
         } else {
             // Todo: toast -> you must logged in to send message
+            alert("You Must Logged in to Send Message")
         }
     }
 
     return (
-        <>
-            <main className="container">
-                <div id="room__container">
+        <div className="container">
+            <div id="room__container">
 
-                    {/* Todo: section 1 */}
-                    <section id="members__container">
-                        <div id="members__header">
-                            <p>Participants</p>
-                            <strong id="members__count">{members.length}</strong>
-                        </div>
+                {/* Todo: section 1 */}
+                <section id="members__container">
+                    <div id="members__header">
+                        <p>Participants</p>
+                        <strong id="members__count">{members.length}</strong>
+                    </div>
 
-                        <div id="member__list">
-                            {
-                                members.map((member, index) => (
-                                    <div key={index} className="member__wrapper">
-                                        <span className="green__icon"></span>
-                                        <p className="member_name">{member.name}</p>
+                    <div id="member__list">
+                        {
+                            members.map((member, index) => (
+                                <div key={index} className="member__wrapper">
+                                    <span className="green__icon"></span>
+                                    <p className="member_name">{member.name}</p>
+                                </div>
+                            ))
+                        }
+                    </div>
+                </section>
+
+                {/* Todo: section 2*/}
+                <Stream
+                    roomKey={UUID}
+                    isPub={isPub}
+                />
+
+                {/* Todo: section 3*/}
+                {/*let messagesContainer = document.getElementById('messages');*/}
+                {/*messagesContainer.scrollTop = messagesContainer.scrollHeight;*/}
+                <section id="messages__container">
+                    <div id="messages">
+                        {
+                            chats.map((chat, index) => (
+                                <div key={index} className="message__wrapper">
+                                    {/*<img className="avatar__md" src={testImg} alt="world"/>*/}
+                                    <div className="message__body">
+                                        <strong className="message__author">{chat.senderName}</strong>
+                                        <small className="message__timestamp">{chat.time}</small>
+                                        <p className="message__text">{chat.message}</p>
                                     </div>
-                                ))
-                            }
-                        </div>
-                    </section>
+                                </div>
+                            ))
+                        }
+                    </div>
 
-                    {/* Todo: section 2*/}
-                    <Stream
-                        roomKey={UUID}
-                        isPub={isPub}
-                    />
+                    <form id="message__form" onSubmit={handleSendMessage}>
+                        <input
+                            type="text"
+                            value={sendMessage}
+                            onChange={(event) => setSendMessage(event.target.value)}
+                            placeholder="Send a message...."
+                        />
+                    </form>
 
-                    {/* Todo: section 3*/}
-                    {/*let messagesContainer = document.getElementById('messages');*/}
-                    {/*messagesContainer.scrollTop = messagesContainer.scrollHeight;*/}
-                    <section id="messages__container">
-                        <div id="messages">
-                            {
-                                chats.map((chat, index) => (
-                                    <div key={index} className="message__wrapper">
-                                        {/*<img className="avatar__md" src={testImg} alt="world"/>*/}
-                                        <div className="message__body">
-                                            <strong className="message__author">{chat.senderName}</strong>
-                                            <small className="message__timestamp">{chat.time}</small>
-                                            <p className="message__text">{chat.message}</p>
-                                        </div>
-                                    </div>
-                                ))
-                            }
-                        </div>
-
-                        <form id="message__form" onSubmit={handleSendMessage}>
-                            <input
-                                type="text"
-                                value={sendMessage}
-                                onChange={(event) => setSendMessage(event.target.value)}
-                                placeholder="Send a message...."
-                            />
-                        </form>
-
-                    </section>
-                </div>
-            </main>
-        </>
+                </section>
+            </div>
+        </div>
     );
 }
