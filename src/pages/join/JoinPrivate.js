@@ -1,7 +1,6 @@
 import "./join.css"
 import {useNavigate} from "react-router-dom";
-import {useEffect, useState} from "react";
-import checkLogin from "../../service/checkLogin";
+import {useState} from "react";
 import useAuthRequest from "../../hooks/useAuthRequest";
 import useFetch from "../../hooks/useFetch";
 import authData from "../../data/authData";
