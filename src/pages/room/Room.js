@@ -131,21 +131,8 @@ export default function Room() {
     }
 
     const onMemberLeave = (data) => {
-        if (data.name !== undefined) {
-            console.log("data name: *" + data.name + "*");
-            let index = -1;
-            console.log(members.length);
-            for (let i = 0; i < members.length; i++) {
-                console.log(i + ": *" + members[i].name + "*");
-                if (members[i].name === data.name) {
-                    index = i;
-                }
-            }
-            // let index = members.findIndex((member) => member.name === data.name));
-            console.log("member find at index: ", index)
-            if (index !== -1) {
-                setMembers(prevState => prevState.splice(index, 1));
-            }
+        if (data.name) {
+            fetchMembers();
         }
     }
 
