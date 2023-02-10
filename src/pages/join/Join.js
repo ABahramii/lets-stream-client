@@ -1,5 +1,5 @@
 import "./join.css"
-import {useNavigate} from "react-router-dom";
+import {useLocation, useNavigate} from "react-router-dom";
 import {useEffect, useState} from "react";
 import checkLogin from "../../service/checkLogin";
 import useFetch from "../../hooks/useFetch";
@@ -7,6 +7,9 @@ import authData from "../../data/authData";
 import testImg from "../../images/dark-logo.png";
 
 export default function Join() {
+    const {state} = useLocation();
+    const [hasDefaultName, setHasDefaultName] = useState(false);
+
     const [guestName, setGuestName] = useState("");
     const [roomName, setRoomName] = useState("");
 
@@ -18,6 +21,12 @@ export default function Join() {
 
     useEffect(() => {
         setIsLogin(checkLogin());
+        if (state) {
+            if (state.name) {
+                setHasDefaultName(true);
+                setRoomName(state.name);
+            }
+        }
     }, [isLogin])
 
     const onError = () => {
@@ -94,7 +103,12 @@ export default function Join() {
 
                 <div id="form__container">
                     <div id="form__container__header">
-                        <p>👋 Join Room</p>
+                        {!hasDefaultName &&
+                            <p>👋 Join Room</p>
+                        }
+                        {hasDefaultName &&
+                            <p>{`👋 Join ${roomName} Room`}</p>
+                        }
                     </div>
 
                     <form id="lobby__form" onSubmit={handleJoin}>
@@ -112,19 +126,20 @@ export default function Join() {
                                 </label>
                             </div>
                         }
-
-                        <div className="form__field__wrapper">
-                            <label>Room Name</label>
-                            <label>
-                                <input
-                                    type="text"
-                                    onChange={(e) => setRoomName(e.target.value)}
-                                    value={roomName}
-                                    required
-                                    placeholder="Enter room name..."
-                                />
-                            </label>
-                        </div>
+                        {!hasDefaultName &&
+                            <div className="form__field__wrapper">
+                                <label>Room Name</label>
+                                <label>
+                                    <input
+                                        type="text"
+                                        onChange={(e) => setRoomName(e.target.value)}
+                                        value={roomName}
+                                        required
+                                        placeholder="Enter room name..."
+                                    />
+                                </label>
+                            </div>
+                        }
 
                         {/*Todo: select avatar when user logged in */}
                         {/*<div className="form__field__wrapper">

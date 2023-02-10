@@ -32,7 +32,7 @@ export default function Lobby() {
         return `${BASE_URL}/room/image/${uuid}`;
     }
 
-    const joinRoom = (roomUUID) => {
+    const joinRoom = (room) => {
         let member = {};
         let isLogin = checkLogin();
 
@@ -54,24 +54,29 @@ export default function Lobby() {
             }).catch(exp => {
                 onError();
             })
-        } else {
-            navigate("/join")
-        }
 
-        request({
-            url: `room/${roomUUID}/checkJoin`,
-            method: "POST",
-            data: member
-        }).then(res => {
-            if (res.data.canJoin) {
-                navigate(`/room/${roomUUID}`);
-            } else {
-                // Todo: duplicate error with toast
-                console.log("user already exists at room");
-            }
-        }).catch(exp => {
-            console.log(JSON.stringify(exp));
-        })
+            request({
+                url: `room/${room.uuid}/checkJoin`,
+                method: "POST",
+                data: member
+            }).then(res => {
+                if (res.data.canJoin) {
+                    navigate(`/room/${room.uuid}`);
+                } else {
+                    // Todo: duplicate error with toast
+                    console.log("user already exists at room");
+                }
+            }).catch(exp => {
+                console.log(JSON.stringify(exp));
+            })
+
+        } else {
+            navigate("/join", {
+                state: {
+                    name: room.name
+                }
+            })
+        }
     }
 
     const onError = () => {
@@ -103,7 +108,8 @@ export default function Lobby() {
                             </div>
                             <div className={'a10'}>
                                 <div className={'a11'}>{room.owner}</div>
-                                <div className={'a12'} onClick={(event) => handleJoin(event, room.uuid)}>Join stream</div>
+                                <div className={'a12'} onClick={(event) => handleJoin(event, room)}>Join stream
+                                </div>
                             </div>
                         </div>
                     )
