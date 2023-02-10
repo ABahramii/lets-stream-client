@@ -56,9 +56,7 @@ export default function UserRooms() {
             url: `/room/delete/${uuid}`,
             method: "DELETE",
         }).then(res => {
-            if (res.code === 200) {
-                window.location.reload();
-            }
+            setRooms([...rooms.filter(r=> r.uuid !== uuid)]);
         }).catch(exp => {
             console.log("exception: ", JSON.stringify(exp));
         })
