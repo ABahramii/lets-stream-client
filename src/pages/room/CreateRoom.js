@@ -33,10 +33,11 @@ export default function CreateRoom() {
             if (res.code === 200) {
                 // Todo: alert room created successfully
                 navigate("/");
+            } else if (res.code === 500) {
+                console.log(res.message);
             }
         }).catch(exp => {
             console.log(JSON.stringify(exp))
-            // Todo: use toast
         })
 
     }
