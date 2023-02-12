@@ -6,10 +6,12 @@ import {useEffect, useState} from "react";
 import {IconButton, Menu, MenuItem} from "@mui/material";
 import AccountCircleOutlinedIcon from '@mui/icons-material/AccountCircleOutlined';
 import authData from "../data/authData";
+import useAuthRequest from "../hooks/useAuthRequest";
 
 export default function Navbar() {
     const [isLogin, setIsLogin] = useState(false);
     const [menuOpen, setMenuOpen] = useState(false);
+    const [request] = useAuthRequest();
     const navigate = useNavigate();
 
     useEffect(() => {
@@ -20,6 +22,19 @@ export default function Navbar() {
         event.preventDefault();
         setMenuOpen(false);
         navigate(url);
+    }
+
+    const handleEdit = (event) => {
+        event.preventDefault();
+        request({
+            url: "/users/findUUID",
+            method: "GET",
+        }).then(res => {
+            navigate(`/user/edit/${res.data.uuid}`);
+        }).catch(exp => {
+            authData.removeAuthData();
+            navigate("/login");
+        })
     }
 
     const handleLogout = (event) => {
@@ -89,11 +104,11 @@ export default function Navbar() {
                     open={menuOpen}
                     onClose={()=>{setMenuOpen(false)}}
                 >
-                    <MenuItem >
-                        <div className="nav__link" onClick={event => gotoPage(event, "/signup")}>
+                    {/*<MenuItem >
+                        <div className="nav__link" onClick={event => handleEdit(event)}>
                             Edit Profile
                         </div>
-                    </MenuItem>
+                    </MenuItem>*/}
                     <MenuItem >
                         <div className="nav__link" onClick={event => gotoPage(event, "/user/rooms")}>
                             Your Rooms

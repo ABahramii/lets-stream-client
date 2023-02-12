@@ -15,23 +15,27 @@ export default function CreateUser() {
 
     const handleLogin = (event) => {
         event.preventDefault();
-        signupRequest({
-            url: `/users/create`,
-            method: "POST",
-            data: {
-                name,
-                username,
-                password
-            }
-        }).then(res => {
-            const data = res.data;
-            authData.saveAuthData(data.accessToken, data.accessTokenExpireAt, data.username);
-            navigate("/");
-            window.location.reload();
-        }).catch(exp => {
-            // Todo: use toast
-            alert("username already taken.")
-        });
+        if (password.length >= 8) {
+            signupRequest({
+                url: `/users/create`,
+                method: "POST",
+                data: {
+                    name,
+                    username,
+                    password
+                }
+            }).then(res => {
+                const data = res.data;
+                authData.saveAuthData(data.accessToken, data.accessTokenExpireAt, data.username);
+                navigate("/");
+                window.location.reload();
+            }).catch(exp => {
+                // Todo: use toast
+                alert("username already taken.")
+            });
+        } else {
+            alert("password must be at least 8 character");
+        }
     }
 
     const handleInputNameChange = (event) => {
@@ -86,6 +90,7 @@ export default function CreateUser() {
                                     type="password"
                                     onChange={(e) => setPassword(e.target.value)}
                                     value={password}
+                                    required
                                     placeholder="Enter your password..."
                                 />
                             </label>

@@ -47,7 +47,7 @@ function App() {
                         <Route path="/room/create" element={isLogin ? <CreateRoom /> : <Lobby />}/>
                         <Route path="/room/edit/:UUID" element={isLogin ? <EditRoom /> : <Lobby />}/>
                         <Route path="/user/rooms" element={isLogin ? <UserRooms /> : <Lobby />}/>
-                        {/*<Route path="/user/edit/:UUID" element={isLogin ? <UserRooms /> : <Lobby />}/>*/}
+                        {/*<Route path="/user/edit/:UUID" element={isLogin ? <EditRoom /> : <Lobby />}/>*/}
                     </Routes>
                 </BrowserRouter>
             </ThemeProvider>

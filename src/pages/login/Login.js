@@ -31,20 +31,7 @@ export default function Login() {
         }).catch(exp => {
             console.log(JSON.stringify(exp))
             // Todo: use toast
-            MySwal.fire({
-                icon: 'error',
-                title: 'Oops...',
-                text: 'Username or Password is incorrect!',
-                showCloseButton: true,
-                showCancelButton: true,
-                focusConfirm: false,
-                confirmButtonText:
-                    '<i class="fa fa-thumbs-up"></i> Great!',
-                confirmButtonAriaLabel: 'Thumbs up, great!',
-                cancelButtonText:
-                    'No',
-                cancelButtonAriaLabel: 'Thumbs down'
-            })
+            alert("Username or Password is incorrect!");
         })
     }
 
